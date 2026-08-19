@@ -112,19 +112,27 @@ h3 { margin-bottom: 10px; }
 }
 .portrait-frame {
   width: min(420px, 86%);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   padding: 0;
   border: 1px solid var(--text);
+  border-radius: 50%;
   transform: rotate(2deg);
   background: var(--surface);
   overflow: hidden;
+  box-shadow: 0 0 0 10px var(--bg), 0 0 0 11px var(--line);
+  transition: transform .35s ease, box-shadow .35s ease;
+  z-index: 2;
+}
+.portrait-frame:hover {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 0 0 0 10px var(--bg), 0 0 0 11px var(--accent);
 }
 .portrait-frame img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 18%;
 }
 .circle { position: absolute; border-radius: 50%; background: var(--accent); }
 .circle-one { width: 95px; height: 95px; top: 9%; right: 3%; }
@@ -298,7 +306,7 @@ h3 { margin-bottom: 10px; }
   .hero { padding-top: 55px; padding-bottom: 65px; }
   h1 { font-size: clamp(3rem, 16vw, 4.4rem); }
   .hero-visual { min-height: 390px; }
-  .portrait-frame { width: 76%; }
+  .portrait-frame { width: 76%; aspect-ratio: 1 / 1; }
   .quick-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .section { padding-top: 90px; padding-bottom: 90px; }
   .section-heading, .about-preview { grid-template-columns: 1fr; gap: 12px; }
