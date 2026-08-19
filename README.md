@@ -34,3 +34,9 @@ QA approach and Contact sections.
 - Primary CTA now goes to About instead of Projects.
 - The original QA philosophy statement was moved to the closing signature section.
 - Added Alice's professional portrait under `assets/alice-paggi.jpg`.
+
+
+## V1.3 fixed
+
+- Corrected invalid closing tags in the Expertise and Selected Work markup.
+- Corrected the Katalon GitHub link in the AKQA case study.
