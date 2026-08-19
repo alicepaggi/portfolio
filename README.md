@@ -2,41 +2,39 @@
 
 Personal portfolio website for Alice Paggi, QA Specialist / Test Engineer.
 
-## V1 stack
+## V1.2
 
 - HTML5
 - CSS3
 - Vanilla JavaScript
 - Git / GitHub
-- Playwright (planned QA phase)
+- Playwright planned / currently being introduced at Logol
 
-## Current status
+### Positioning
+**Quality is more than finding bugs.**
 
-The first implementation contains the visual direction, navigation, hero,
-professional focus, About preview, Expertise, Experience, selected work,
-QA approach and Contact sections.
+The portfolio now emphasizes QA ownership across Generali, AKQA and Logol, with Logol presented as the current full QA ownership role.
 
-## Next steps
+### Case studies
+1. Generali — Building QA from scratch
+2. AKQA — Where QA meets UX
+3. Logol AG — Owning quality. Building what's next.
 
-1. Refine the hero with Alice's selected professional photo and personal positioning.
-2. Finalize typography and visual details.
-3. Build the three case studies.
-4. Add the Education / Courses section.
-5. Add GitHub URL.
-6. Run accessibility, responsive and functional checks.
-7. Add Playwright tests.
-8. Deploy the site.
+### Education
+- Bachelor's Degree in Computer Science — University of Pegaso, expected June 2027
+- Web Design — IED European Institute of Design, 2021–2022
+- IT & Telecommunications — ITIS Cartesio, 2010–2015
 
+## Local publication
 
-## V1.1 changes
+Copy the contents of this folder over the existing `portfolio` repository, then:
 
-- Hero now leads with Alice's profile and the positioning statement “Let’s build better software.”
-- Primary CTA now goes to About instead of Projects.
-- The original QA philosophy statement was moved to the closing signature section.
-- Added Alice's professional portrait under `assets/alice-paggi.jpg`.
+```bash
+git status
+git add .
+git commit -m "Build portfolio V1.2 case studies and QA ownership"
+git push origin main
+```
 
-
-## V1.3 fixed
-
-- Corrected invalid closing tags in the Expertise and Selected Work markup.
-- Corrected the Katalon GitHub link in the AKQA case study.
+The site is intended for GitHub Pages at:
+https://alicepaggi.github.io/portfolio/
