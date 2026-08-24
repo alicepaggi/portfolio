@@ -118,7 +118,10 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
     metrics[2].textContent = running ? `${completedJobs}/2` : (passed ? '100%' : failed ? 'FAILED' : '—');
 
     const lines = [
-      { text: `<span class="qa-prompt">›</span> ${running ? 'Running Playwright E2E suite…' : passed ? 'Playwright E2E suite completed successfully.' : failed ? 'Playwright E2E suite finished with failures.' : 'QA workflow ready.'}, live: running },
+      {
+        text: `<span class="qa-prompt">›</span> ${running ? 'Running Playwright E2E suite…' : passed ? 'Playwright E2E suite completed successfully.' : failed ? 'Playwright E2E suite finished with failures.' : 'QA workflow ready.'}`,
+        live: running
+      },
     ];
 
     (data.jobs || []).forEach(job => {
