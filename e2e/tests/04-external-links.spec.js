@@ -5,26 +5,26 @@ test.describe('Contact links (homepage)', () => {
     await page.goto('/#contact');
   });
 
-  test('email link è corretto', async ({ page }) => {
+  test('email link is correct', async ({ page }) => {
     const email = page.locator('.contact-links a[href^="mailto:"]');
     await expect(email).toHaveAttribute('href', 'mailto:paggi.alice96@gmail.com');
   });
 
-  test('link LinkedIn è corretto e si apre in nuova scheda', async ({ page }) => {
+  test('LinkedIn link is correct and opens in a new tab', async ({ page }) => {
     const linkedin = page.locator('.contact-links a[href*="linkedin.com"]');
     await expect(linkedin).toHaveAttribute('href', 'https://www.linkedin.com/in/alicepaggi/');
     await expect(linkedin).toHaveAttribute('target', '_blank');
     await expect(linkedin).toHaveAttribute('rel', /noopener/);
   });
 
-  test('link GitHub è corretto e si apre in nuova scheda', async ({ page }) => {
+  test('GitHub link is correct and opens in a new tab', async ({ page }) => {
     const github = page.locator('.contact-links a[href*="github.com"]');
     await expect(github).toHaveAttribute('href', 'https://github.com/alicepaggi');
     await expect(github).toHaveAttribute('target', '_blank');
   });
 });
 
-test.describe('Link esterni nei case study', () => {
+test.describe('External links in case studies', () => {
   // Only case studies that actually contain external project links.
   const externalLinks = [
     { page: '/work/akqa-ux-qa.html', selector: '.project-link', label: 'AKQA' },
@@ -32,7 +32,7 @@ test.describe('Link esterni nei case study', () => {
   ];
 
   for (const { page: path, selector, label } of externalLinks) {
-    test(`${label}: i link esterni hanno target/rel corretti`, async ({ page }) => {
+    test(`${label}: external links have the correct target/rel attributes`, async ({ page }) => {
       await page.goto(path);
       const links = page.locator(selector);
       const count = await links.count();
@@ -48,7 +48,7 @@ test.describe('Link esterni nei case study', () => {
     });
   }
 
-  test('i link esterni principali rispondono correttamente @network', async ({ page, request }) => {
+  test('main external links respond correctly @network', async ({ page, request }) => {
     await page.goto('/work/akqa-ux-qa.html');
     const hrefs = await page.locator('.project-link').evaluateAll((links) =>
       links.map((l) => l.getAttribute('href'))
@@ -56,7 +56,7 @@ test.describe('Link esterni nei case study', () => {
 
     for (const href of hrefs) {
       const response = await request.get(href, { failOnStatusCode: false });
-      expect(response.status(), `${href} dovrebbe rispondere < 400`).toBeLessThan(400);
+      expect(response.status(), `${href} should respond with < 400`).toBeLessThan(400);
     }
   });
 });
