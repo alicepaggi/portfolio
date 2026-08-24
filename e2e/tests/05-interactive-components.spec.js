@@ -8,11 +8,11 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
   test('ogni slider mostra i dot di navigazione', async ({ page }) => {
     const sliders = page.locator('[data-slider]');
     const count = await sliders.count();
-    expect(count).toBe(3); // GORE-TEX, Ferrari, Vodafone
+    expect(count).toBe(3);
 
     for (let i = 0; i < count; i++) {
       const dots = sliders.nth(i).locator('.slider-dot');
-      await expect(dots).toHaveCount(2); // 2 slide per gallery in questo case study
+      await expect(dots).toHaveCount(2);
       await expect(dots.first()).toHaveClass(/active/);
     }
   });
@@ -25,7 +25,6 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
     await firstSlider.locator('[data-next]').click();
     await expect(dots.nth(1)).toHaveClass(/active/);
 
-    // il track deve traslare per mostrare la seconda slide
     const transform = await firstSlider.locator('.slider-track').evaluate(
       (el) => el.style.transform
     );
@@ -50,18 +49,24 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
     await expect(dots.nth(0)).toHaveClass(/active/);
   });
 
-  test('tutte le immagini negli slider hanno alt text e sono caricate', async ({ page }) => {
-    const images = page.locator('[data-slider] .slide img');
-    const count = await images.count();
-    expect(count).toBeGreaterThan(0);
+  test('le immagini degli slider hanno alt text e sono caricabili', async ({ page }) => {
+    const sliders = page.locator('[data-slider]');
+    const sliderCount = await sliders.count();
+    expect(sliderCount).toBe(3);
 
-    for (let i = 0; i < count; i++) {
-      const img = images.nth(i);
-      const alt = await img.getAttribute('alt');
-      expect(alt).toBeTruthy();
+    for (let i = 0; i < sliderCount; i++) {
+      const images = sliders.nth(i).locator('.slide img');
+      const count = await images.count();
+      expect(count).toBeGreaterThan(0);
 
-      const naturalWidth = await img.evaluate((el) => el.naturalWidth);
-      expect(naturalWidth).toBeGreaterThan(0);
+      for (let j = 0; j < count; j++) {
+        const img = images.nth(j);
+        await expect(img).toHaveAttribute('alt', /.+/);
+
+        // Lazy-loaded slides are checked by bringing each one into view first.
+        await img.scrollIntoViewIfNeeded();
+        await expect.poll(() => img.evaluate((el) => el.complete && el.naturalWidth > 0)).toBe(true);
+      }
     }
   });
 });
@@ -79,7 +84,6 @@ test.describe('Mobile nav toggle (componente interattivo homepage)', () => {
     await expect(menu).toHaveClass(/is-open/);
     await expect(toggle).toHaveAttribute('aria-expanded', 'true');
 
-    // Cliccare un link chiude il menu
     await page.locator('.nav-menu a[href="#about"]').click();
     await expect(menu).not.toHaveClass(/is-open/);
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
