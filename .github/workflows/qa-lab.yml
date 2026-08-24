@@ -1,0 +1,86 @@
+name: QA Lab — Playwright E2E
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'css/**'
+      - 'js/**'
+      - 'work/**'
+      - 'assets/**'
+      - 'e2e/**'
+      - '.github/workflows/qa-lab.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    name: Chromium — full suite
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: e2e
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Chromium suite
+        run: npx playwright test --project=chromium-desktop
+
+      - name: Upload Chromium report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-chromium
+          path: e2e/playwright-report
+          retention-days: 7
+
+  mobile-safari:
+    name: Mobile Safari — responsive suite
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: e2e
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps webkit
+
+      - name: Run Mobile Safari responsive suite
+        run: npx playwright test --project=mobile-safari
+
+      - name: Upload Mobile Safari report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-mobile-safari
+          path: e2e/playwright-report
+          retention-days: 7
