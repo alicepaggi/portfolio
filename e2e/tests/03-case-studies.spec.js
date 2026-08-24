@@ -24,7 +24,7 @@ const caseStudies = [
 test.describe('Case studies', () => {
   for (const cs of caseStudies) {
     test.describe(cs.name, () => {
-      test(`si apre dalla homepage e mostra i contenuti essenziali`, async ({ page }) => {
+      test(`opens from the homepage and shows the essential content`, async ({ page }) => {
         await page.goto('/#work');
         await page.locator(`.project-card[href="${cs.cardHref}"]`).click();
 
@@ -33,17 +33,17 @@ test.describe('Case studies', () => {
         await expect(page.locator('.case-subtitle')).toBeVisible();
         await expect(page.locator('.case-copy').first()).not.toBeEmpty();
 
-        // Verifica che tutte le meta-info (Role, Platforms, ecc.) siano presenti
+        // Verify that all meta information (Role, Platforms, etc.) is present
         for (const label of cs.metaLabels) {
           await expect(page.locator('.case-meta')).toContainText(label);
         }
 
-        // Ogni case study deve avere almeno una case card con contenuto
+        // Every case study must have at least one content card
         const cardCount = await page.locator('.case-card').count();
         expect(cardCount).toBeGreaterThan(0);
       });
 
-      test(`il back-link riporta alla sezione Work della homepage`, async ({ page }) => {
+      test(`the back link returns to the Work section of the homepage`, async ({ page }) => {
         await page.goto(`/${cs.cardHref}`);
         await page.locator('.case-back').click();
         await expect(page).toHaveURL(/index\.html#work$|\/#work$/);
@@ -52,7 +52,7 @@ test.describe('Case studies', () => {
     });
   }
 
-  test('il case study Logol menziona esplicitamente Playwright', async ({ page }) => {
+  test('the Logol case study explicitly mentions Playwright', async ({ page }) => {
     await page.goto('/work/logol-playwright.html');
     await expect(page.locator('.automation-banner')).toContainText('Playwright');
     await expect(page.locator('.automation-banner img')).toHaveAttribute('alt', 'Playwright');
