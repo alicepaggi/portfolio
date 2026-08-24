@@ -49,7 +49,7 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
   const metrics = [...document.querySelectorAll('.qa-lab-metrics strong')];
   if (!lab || !button || !consoleScreen) return;
 
-  const API_BASE = window.QA_LAB_API_BASE || 'https://portfolio-qa-api.vercel.app';
+  const API_BASE = window.QA_LAB_API_BASE || 'https://portfolio-psi-one-uitl02qr3a.vercel.app';
   let pollTimer = null;
   let activeRunId = null;
 
