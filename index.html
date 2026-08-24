@@ -12,7 +12,7 @@
       .portrait-frame { width: 76%; max-width: 100%; min-width: 0; overflow: hidden; }
       .portrait-frame img { width: 100%; max-width: 100%; height: 100%; display: block; object-fit: cover; }
     }
-    .qa-lab-section { background: #f1f5f3; }
+    .qa-lab-section { background: var(--bg); }
     .qa-lab { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; box-shadow: 0 18px 45px rgba(23,33,33,.08); }
     .qa-lab-header { display: grid; grid-template-columns: 1.4fr .6fr; gap: 40px; padding: 42px; border-bottom: 1px solid var(--line); }
     .qa-lab-kicker { color: var(--accent-dark); font: 700 .72rem "Space Grotesk",sans-serif; letter-spacing: .14em; }
@@ -42,8 +42,17 @@
     .qa-lab-footer { display: flex; justify-content: space-between; gap: 20px; padding: 18px 26px; border-top: 1px solid var(--line); color: var(--muted); font: 700 .68rem "Space Grotesk",sans-serif; letter-spacing: .08em; }
     .qa-lab-footer a { color: var(--accent-dark); text-decoration: none; letter-spacing: 0; }
     .qa-lab-footer a:hover { text-decoration: underline; }
+    .personal-projects { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .personal-projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px; margin-top: 34px; }
+    .personal-project-card { display: block; padding: 28px; border: 1px solid var(--line); border-radius: 22px; background: var(--bg); text-decoration: none; color: inherit; transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+    .personal-project-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(23,33,33,.08); border-color: rgba(66,199,206,.65); }
+    .personal-project-card span { color: var(--accent-dark); font: 700 .68rem "Space Grotesk",sans-serif; letter-spacing: .12em; }
+    .personal-project-card h3 { margin: 14px 0 10px; font-size: 1.55rem; }
+    .personal-project-card p { margin: 0 0 16px; color: var(--muted); max-width: 560px; }
+    .personal-project-meta { color: var(--text); font-size: .82rem; font-weight: 600; }
+    .personal-project-link { display: inline-block; margin-top: 18px; color: var(--accent-dark); font-weight: 700; }
     @media (max-width: 900px) {
-      .qa-lab-header, .qa-lab-body { grid-template-columns: 1fr; }
+      .qa-lab-header, .qa-lab-body, .personal-projects-grid { grid-template-columns: 1fr; }
       .qa-test-list { border-right: 0; border-bottom: 1px solid var(--line); }
       .qa-lab-metrics { min-height: 120px; }
     }
@@ -65,7 +74,7 @@
     <a class="brand" href="#top">ALICE PAGGI</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="Open navigation"><span></span><span></span></button>
     <div class="nav-menu" id="main-menu">
-      <a href="#about">About</a><a href="#expertise">Expertise</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#education">Education</a><a href="#contact">Contact</a>
+      <a href="#about">About</a><a href="#expertise">Expertise</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#personal-projects">Projects</a><a href="#education">Education</a><a href="#contact">Contact</a>
       <a class="nav-cv" href="cv/Alice_Paggi_CV_2026.pdf" target="_blank" rel="noopener">Download CV ↗</a>
     </div>
   </nav>
@@ -151,7 +160,7 @@
             <div class="qa-console-line qa-muted">The live runner will execute the real Playwright suite here.</div>
             <div class="qa-console-line qa-muted">Watch test steps and browser activity in real time.</div>
           </div>
-          <div class="qa-lab-actions"><button class="qa-run-button" type="button" disabled>RUN QA SUITE <span>↗</span></button><span>Live runner coming next</span></div>
+          <div class="qa-lab-actions"><button class="qa-run-button" type="button" disabled>RUN QA SUITE <span>↗</span></button><span>Live runner ready</span></div>
         </div>
       </div>
       <div class="qa-lab-footer"><span>FULL REGRESSION SUITE · 48 TESTS</span><a href="https://github.com/alicepaggi/portfolio/tree/main/e2e" target="_blank" rel="noopener">View Playwright suite on GitHub ↗</a></div>
@@ -185,14 +194,36 @@
     <div class="section-heading"><div class="section-index">07</div><div><p class="eyebrow">SELECTED WORK</p><h2>Selected work</h2><p class="section-lead dark-lead">A few examples of how I approach quality, testing and automation.</p></div></div>
     <div class="project-grid project-grid-featured">
       <a class="project-card project-card-featured" href="work/generali-qa.html"><span>CASE STUDY 01</span><h3>Building QA from scratch</h3><p>Generali | Web · Mobile · International QA</p><strong>View case study ↗</strong></a>
-      <a class="project-card project-card-featured" href="work/akqa-ux-qa.html"><span>CASE STUDY 02</span><h3>Where QA meets UX</h3><p>AKQA | GORE-TEX · Ferrari · Vodafone</p><strong>View case study ↗</strong></a>
+      <a class="project-card project-card-featured" href="work/akqa-ux-qa.html"><span>CASE STUDY 02</span><h3>Where QA meets UX</h3><p>AKQA | QA · UX · Digital Product Quality</p><strong>View case study ↗</strong></a>
       <a class="project-card project-card-featured" href="work/logol-playwright.html"><span>CASE STUDY 03</span><h3>Owning quality. Building what's next.</h3><p>Logol AG | AI · UAT · Playwright</p><strong>View case study ↗</strong></a>
     </div>
   </div>
 </section>
 
+<section class="section personal-projects" id="personal-projects">
+  <div class="container">
+    <div class="section-heading"><div class="section-index">08</div><div><p class="eyebrow">PERSONAL PROJECTS</p><h2>Web projects beyond QA.</h2><p class="section-lead">A small selection of websites and prototypes I built alongside my QA career.</p></div></div>
+    <div class="personal-projects-grid">
+      <a class="personal-project-card" href="https://github.com/alicepaggi/ecommerce-prototype" target="_blank" rel="noopener">
+        <span>PERSONAL PROJECT · IED</span>
+        <h3>E-commerce prototype</h3>
+        <p>A perfume-brand e-commerce prototype developed from UX/UI design through front-end implementation.</p>
+        <div class="personal-project-meta">UX/UI · HTML · CSS · JavaScript</div>
+        <span class="personal-project-link">View project ↗</span>
+      </a>
+      <a class="personal-project-card" href="https://assistenzaufficialeilvealpesmilano.wordpress.com/" target="_blank" rel="noopener">
+        <span>PERSONAL PROJECT · WORDPRESS</span>
+        <h3>Local business website</h3>
+        <p>Website developed for a family business, focused on services, contact information and practical local content.</p>
+        <div class="personal-project-meta">WordPress · Web design · Content structure</div>
+        <span class="personal-project-link">View website ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="section container" id="education">
-  <div class="section-heading"><div class="section-index">08</div><div><p class="eyebrow">EDUCATION &amp; LEARNING</p><h2>Building the technical foundation behind my QA work.</h2></div></div>
+  <div class="section-heading"><div class="section-index">09</div><div><p class="eyebrow">EDUCATION &amp; LEARNING</p><h2>Building the technical foundation behind my QA work.</h2></div></div>
   <div class="education-grid">
     <article class="education-card"><div class="education-logo"><img src="assets/pegaso-logo.png" alt="Pegaso University"></div><p class="education-year">2024 — June 2027</p><h3>Bachelor's Degree in Computer Science</h3><p>University of Pegaso</p><span>Expected graduation: June 2027</span></article>
     <article class="education-card"><div class="education-logo"><img src="assets/ied-logo.png" alt="IED European Institute of Design"></div><p class="education-year">2021 — 2022</p><h3>Web Design · 2nd Level Specialization</h3><p>IED — European Institute of Design</p></article>
@@ -202,7 +233,7 @@
 </section>
 
 <section class="section container qa-approach">
-  <div class="section-heading"><div class="section-index">09</div><div><p class="eyebrow">MY QA APPROACH</p><h2>Quality is a process.</h2><p class="section-lead">I don't just execute tests. I take ownership of quality.</p></div></div>
+  <div class="section-heading"><div class="section-index">10</div><div><p class="eyebrow">MY QA APPROACH</p><h2>Quality is a process.</h2><p class="section-lead">I don't just execute tests. I take ownership of quality.</p></div></div>
   <div class="approach-grid"><div><strong>01</strong><h3>Discover</h3><p>Understand the product, users and requirements.</p></div><div><strong>02</strong><h3>Plan</h3><p>Define what needs to be validated.</p></div><div><strong>03</strong><h3>Test</h3><p>Challenge the product from different perspectives.</p></div><div><strong>04</strong><h3>Automate</h3><p>Automate where it creates real value. Use AI to support and accelerate automation.</p></div><div><strong>05</strong><h3>Improve</h3><p>Learn, adapt and continuously improve.</p></div></div>
 </section>
 
