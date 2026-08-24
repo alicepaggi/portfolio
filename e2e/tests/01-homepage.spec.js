@@ -5,38 +5,38 @@ test.describe('Homepage smoke test', () => {
     await page.goto('/');
   });
 
-  test('carica con il titolo corretto', async ({ page }) => {
+  test('loads with the correct title', async ({ page }) => {
     await expect(page).toHaveTitle(/Alice Paggi/);
   });
 
-  test('hero mostra nome e headline', async ({ page }) => {
+  test('hero shows the name and headline', async ({ page }) => {
     await expect(page.locator('.hero h1 span').first()).toHaveText('Alice Paggi');
     await expect(page.locator('.hero-statement')).toBeVisible();
     await expect(page.locator('.hero-text')).toContainText('quality assurance');
   });
 
-  test('foto profilo nella hero viene caricata correttamente', async ({ page }) => {
+  test('profile photo in the hero loads correctly', async ({ page }) => {
     const portrait = page.locator('.portrait-frame img');
     await expect(portrait).toBeVisible();
     await expect(portrait).toHaveAttribute('alt', /Alice Paggi/);
 
-    // Verifica che l'immagine sia effettivamente caricata (naturalWidth > 0)
+    // Verify that the image is actually loaded (naturalWidth > 0)
     const naturalWidth = await portrait.evaluate((img) => img.naturalWidth);
     expect(naturalWidth).toBeGreaterThan(0);
   });
 
-  test('tutte le sezioni principali sono presenti nel DOM', async ({ page }) => {
+  test('all main sections are present in the DOM', async ({ page }) => {
     const sectionIds = ['about', 'expertise', 'experience', 'work', 'education', 'contact'];
     for (const id of sectionIds) {
       await expect(page.locator(`#${id}`)).toBeAttached();
     }
   });
 
-  test('quick-intro mostra gli anni di esperienza', async ({ page }) => {
+  test('quick intro shows the years of experience', async ({ page }) => {
     await expect(page.locator('.quick-number')).toHaveText('9+');
   });
 
-  test('footer e signature sono presenti', async ({ page }) => {
+  test('footer and signature are present', async ({ page }) => {
     await expect(page.locator('.site-footer')).toContainText('ALICE PAGGI');
     await expect(page.locator('.signature')).toContainText('Quality is not the last step');
   });
