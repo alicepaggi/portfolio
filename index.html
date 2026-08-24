@@ -28,16 +28,16 @@
     .qa-test-row:last-child { border-bottom: 0; }
     .qa-status { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(66,199,206,.14); color: var(--accent-dark); font-weight: 700; }
     .qa-test-row small { color: var(--muted); font-size: .72rem; white-space: nowrap; }
-    .qa-console { display: flex; flex-direction: column; background: #111918; color: #fff; }
-    .qa-console-bar { display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.1); color: #c8d2d1; font: 700 .66rem "Space Grotesk",sans-serif; letter-spacing: .1em; }
+    .qa-console { display: flex; flex-direction: column; background: var(--surface); color: var(--text); border-left: 1px solid var(--line); }
+    .qa-console-bar { display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-bottom: 1px solid var(--line); color: var(--muted); font: 700 .66rem "Space Grotesk",sans-serif; letter-spacing: .1em; }
     .qa-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
     .qa-console-browser { margin-left: auto; color: #849291; letter-spacing: .04em; }
     .qa-console-screen { flex: 1; padding: 28px; font: .88rem/1.8 ui-monospace,SFMono-Regular,Menlo,monospace; }
     .qa-console-line { margin-bottom: 8px; }
     .qa-prompt { color: var(--accent); margin-right: 8px; }
     .qa-muted { color: #73817f; }
-    .qa-lab-actions { display: flex; align-items: center; gap: 15px; padding: 18px 24px; border-top: 1px solid rgba(255,255,255,.1); }
-    .qa-run-button { border: 0; border-radius: 999px; padding: 12px 17px; background: #2b3736; color: #8b9997; font: 700 .72rem "Space Grotesk",sans-serif; letter-spacing: .08em; cursor: not-allowed; }
+    .qa-lab-actions { display: flex; align-items: center; gap: 15px; padding: 18px 24px; border-top: 1px solid var(--line); }
+    .qa-run-button { border: 0; border-radius: 999px; padding: 12px 17px; background: var(--accent); color: var(--text); font: 700 .72rem "Space Grotesk",sans-serif; letter-spacing: .08em; cursor: pointer; transition: .2s ease; }
     .qa-lab-actions > span { color: #73817f; font-size: .8rem; }
     .qa-lab-footer { display: flex; justify-content: space-between; gap: 20px; padding: 18px 26px; border-top: 1px solid var(--line); color: var(--muted); font: 700 .68rem "Space Grotesk",sans-serif; letter-spacing: .08em; }
     .qa-lab-footer a { color: var(--accent-dark); text-decoration: none; letter-spacing: 0; }
@@ -160,7 +160,7 @@
             <div class="qa-console-line qa-muted">The live runner will execute the real Playwright suite here.</div>
             <div class="qa-console-line qa-muted">Watch test steps and browser activity in real time.</div>
           </div>
-          <div class="qa-lab-actions"><button class="qa-run-button" type="button" disabled>RUN QA SUITE <span>↗</span></button><span>Live runner ready</span></div>
+          <div class="qa-lab-actions"><button class="qa-run-button" type="button">RUN QA SUITE <span>↗</span></button><span>Run the full Playwright regression suite</span></div>
         </div>
       </div>
       <div class="qa-lab-footer"><span>FULL REGRESSION SUITE · 48 TESTS</span><a href="https://github.com/alicepaggi/portfolio/tree/main/e2e" target="_blank" rel="noopener">View Playwright suite on GitHub ↗</a></div>
