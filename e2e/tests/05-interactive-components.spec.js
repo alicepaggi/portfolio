@@ -1,11 +1,11 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
+test.describe('Interactive slider (AKQA case study — 3 sliders)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/work/akqa-ux-qa.html');
   });
 
-  test('ogni slider mostra i dot di navigazione', async ({ page }) => {
+  test('each slider shows navigation dots', async ({ page }) => {
     const sliders = page.locator('[data-slider]');
     const count = await sliders.count();
     expect(count).toBe(3);
@@ -17,7 +17,7 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
     }
   });
 
-  test('il pulsante "next" avanza allo slide successivo', async ({ page }) => {
+  test('the "next" button advances to the next slide', async ({ page }) => {
     const firstSlider = page.locator('[data-slider]').first();
     const dots = firstSlider.locator('.slider-dot');
 
@@ -31,7 +31,7 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
     expect(transform).toContain('-100%');
   });
 
-  test('cliccare un dot naviga direttamente a quello slide', async ({ page }) => {
+  test('clicking a dot navigates directly to that slide', async ({ page }) => {
     const firstSlider = page.locator('[data-slider]').first();
     const dots = firstSlider.locator('.slider-dot');
 
@@ -40,7 +40,7 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
     await expect(dots.nth(0)).not.toHaveClass(/active/);
   });
 
-  test('il pulsante "prev" torna indietro correttamente', async ({ page }) => {
+  test('the "prev" button correctly goes back', async ({ page }) => {
     const firstSlider = page.locator('[data-slider]').first();
     const dots = firstSlider.locator('.slider-dot');
 
@@ -49,7 +49,7 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
     await expect(dots.nth(0)).toHaveClass(/active/);
   });
 
-  test('le immagini degli slider hanno alt text e sono caricabili', async ({ page }) => {
+  test('slider images have alt text and are loaded', async ({ page }) => {
     const sliders = page.locator('[data-slider]');
     const sliderCount = await sliders.count();
     expect(sliderCount).toBe(3);
@@ -71,8 +71,8 @@ test.describe('Slider interattivo (AKQA case study — 3 slider)', () => {
   });
 });
 
-test.describe('Mobile nav toggle (componente interattivo homepage)', () => {
-  test('il menu si apre e si chiude correttamente', async ({ page }) => {
+test.describe('Mobile navigation toggle (interactive homepage component)', () => {
+  test('the menu opens and closes correctly', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/');
 
