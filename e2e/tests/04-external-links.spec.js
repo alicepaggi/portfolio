@@ -25,8 +25,8 @@ test.describe('Contact links (homepage)', () => {
 });
 
 test.describe('Link esterni nei case study', () => {
+  // Only case studies that actually contain external project links.
   const externalLinks = [
-    { page: '/work/generali-qa.html', selector: '.project-link', label: 'Generali' },
     { page: '/work/akqa-ux-qa.html', selector: '.project-link', label: 'AKQA' },
     { page: '/work/logol-playwright.html', selector: '.project-link', label: 'Logol' },
   ];
@@ -48,9 +48,6 @@ test.describe('Link esterni nei case study', () => {
     });
   }
 
-  // Test opzionale e più "pesante": verifica che i link esterni rispondano
-  // davvero (status < 400). Utile in CI notturna, ma può essere flaky per
-  // rate-limiting di terze parti — per questo è isolato e taggato @network.
   test('i link esterni principali rispondono correttamente @network', async ({ page, request }) => {
     await page.goto('/work/akqa-ux-qa.html');
     const hrefs = await page.locator('.project-link').evaluateAll((links) =>
