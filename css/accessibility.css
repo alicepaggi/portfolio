@@ -139,3 +139,9 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
     padding-right: 90px;
   }
 }
+
+/* Prevent decorative responsive overflow from creating horizontal page scrolling. */
+html,
+body {
+  overflow-x: hidden;
+}
