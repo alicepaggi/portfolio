@@ -42,6 +42,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 .case-back:hover,
 .case-closing .project-link:hover {
   color: var(--accent-dark);
+  text-decoration: none;
 }
 
 .dark .project-link:hover,
