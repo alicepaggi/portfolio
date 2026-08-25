@@ -61,7 +61,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   border-color: var(--text);
 }
 
-/* Case-study company marks: transparent, static and visually consistent. */
+/* Case-study company marks: static, no hover effects, and visually consistent. */
 .project-card {
   position: relative;
 }
@@ -85,28 +85,36 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   transition: none !important;
 }
 
-/* Use transparent artwork so no white rectangle is rendered. */
+/* Generali uses the transparent PNG asset. */
 .project-card:nth-child(1) .project-card-logo {
   content: url("../assets/generali-logo-transparent.png");
 }
 
+/* AKQA stays a PNG and is rendered white on the dark card without its baked white background. */
 .project-card:nth-child(2) .project-card-logo {
-  content: url("../assets/akqa-logo.svg");
+  content: url("../assets/akqa-logo-black.png");
+  filter: invert(1) !important;
+  mix-blend-mode: screen !important;
 }
 
 .project-card:nth-child(3) .project-card-logo {
   content: url("../assets/logol-logo.png");
 }
 
-/* Never apply hover/focus effects to the company marks themselves. */
+/* The company marks never change when the card is hovered or focused. */
 .project-card:hover .project-card-logo,
 .project-card:focus .project-card-logo,
 .project-card:focus-visible .project-card-logo {
   opacity: 1 !important;
-  filter: none !important;
   transform: none !important;
-  mix-blend-mode: normal !important;
   transition: none !important;
+}
+
+.project-card:nth-child(2):hover .project-card-logo,
+.project-card:nth-child(2):focus .project-card-logo,
+.project-card:nth-child(2):focus-visible .project-card-logo {
+  filter: invert(1) !important;
+  mix-blend-mode: screen !important;
 }
 
 .project-card > span {
