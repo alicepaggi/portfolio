@@ -20,7 +20,7 @@
 }
 
 /* Every text link gets a clear hover state without changing the visual language. */
-a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):hover {
+a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.contact-links a):hover {
   text-decoration: underline;
   text-underline-offset: .2em;
 }
@@ -50,8 +50,9 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):hover
 }
 
 .contact-links a:hover {
-  color: var(--accent-dark);
-  border-bottom-color: var(--accent-dark);
+  color: #fff;
+  border-bottom-color: #fff;
+  text-decoration: none;
 }
 
 .nav-cv:hover {
