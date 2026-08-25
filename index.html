@@ -12,7 +12,7 @@
       .portrait-frame { width: 76%; max-width: 100%; min-width: 0; overflow: hidden; }
       .portrait-frame img { width: 100%; max-width: 100%; height: 100%; display: block; object-fit: cover; }
     }
-    .qa-lab-section { background: var(--bg); }
+    .qa-lab-section { background: #eef3f1; }
     .qa-lab { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; box-shadow: 0 18px 45px rgba(23,33,33,.08); }
     .qa-lab-header { display: grid; grid-template-columns: 1.4fr .6fr; gap: 40px; padding: 42px; border-bottom: 1px solid var(--line); }
     .qa-lab-kicker { color: var(--accent-dark); font: 700 .72rem "Space Grotesk",sans-serif; letter-spacing: .14em; }
@@ -26,19 +26,20 @@
     .qa-test-list { padding: 26px; background: #fafcfb; border-right: 1px solid var(--line); }
     .qa-test-row { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 10px; padding: 16px 12px; border-bottom: 1px solid var(--line); font-weight: 600; }
     .qa-test-row:last-child { border-bottom: 0; }
+    .qa-test-row > span:not(.qa-status) { color: var(--text); }
     .qa-status { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(66,199,206,.14); color: var(--accent-dark); font-weight: 700; }
     .qa-test-row small { color: var(--muted); font-size: .72rem; white-space: nowrap; }
-    .qa-console { display: flex; flex-direction: column; background: var(--surface); color: var(--text); border-left: 1px solid var(--line); }
-    .qa-console-bar { display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-bottom: 1px solid var(--line); color: var(--muted); font: 700 .66rem "Space Grotesk",sans-serif; letter-spacing: .1em; }
+    .qa-console { display: flex; flex-direction: column; background: #111918; color: #fff; border-left: 1px solid #26302f; }
+    .qa-console-bar { display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.1); color: #c8d2d1; font: 700 .66rem "Space Grotesk",sans-serif; letter-spacing: .1em; }
     .qa-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
     .qa-console-browser { margin-left: auto; color: #849291; letter-spacing: .04em; }
     .qa-console-screen { flex: 1; padding: 28px; font: .88rem/1.8 ui-monospace,SFMono-Regular,Menlo,monospace; }
     .qa-console-line { margin-bottom: 8px; }
     .qa-prompt { color: var(--accent); margin-right: 8px; }
-    .qa-muted { color: #73817f; }
-    .qa-lab-actions { display: flex; align-items: center; gap: 15px; padding: 18px 24px; border-top: 1px solid var(--line); }
+    .qa-muted { color: #9aa9a7; }
+    .qa-lab-actions { display: flex; align-items: center; gap: 15px; padding: 18px 24px; border-top: 1px solid rgba(255,255,255,.1); background: #111918; }
     .qa-run-button { border: 0; border-radius: 999px; padding: 12px 17px; background: var(--accent); color: var(--text); font: 700 .72rem "Space Grotesk",sans-serif; letter-spacing: .08em; cursor: pointer; transition: .2s ease; }
-    .qa-lab-actions > span { color: #73817f; font-size: .8rem; }
+    .qa-lab-actions > span { color: #a6b2b0; font-size: .8rem; }
     .qa-lab-footer { display: flex; justify-content: space-between; gap: 20px; padding: 18px 26px; border-top: 1px solid var(--line); color: var(--muted); font: 700 .68rem "Space Grotesk",sans-serif; letter-spacing: .08em; }
     .qa-lab-footer a { color: var(--accent-dark); text-decoration: none; letter-spacing: 0; }
     .qa-lab-footer a:hover { text-decoration: underline; }
@@ -74,7 +75,7 @@
     <a class="brand" href="#top">ALICE PAGGI</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="Open navigation"><span></span><span></span></button>
     <div class="nav-menu" id="main-menu">
-      <a href="#about">About</a><a href="#expertise">Expertise</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#personal-projects">Projects</a><a href="#education">Education</a><a href="#contact">Contact</a>
+      <a href="#about">About</a><a href="#expertise">Expertise</a><a href="#experience">Experience</a><a href="#work">Work</a><a href="#qa-lab">QA Automation</a><a href="#personal-projects">Personal Projects</a><a href="#education">Education</a><a href="#contact">Contact</a>
       <a class="nav-cv" href="cv/Alice_Paggi_CV_2026.pdf" target="_blank" rel="noopener">Download CV ↗</a>
     </div>
   </nav>
