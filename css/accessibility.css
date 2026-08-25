@@ -81,6 +81,19 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   border: 1px solid rgba(255,255,255,.18);
 }
 
+/* Use the repository's PNG logo assets for the three case-study cards. */
+.project-card:nth-child(1) .project-card-logo {
+  content: url("../assets/generali-logo.png");
+}
+
+.project-card:nth-child(2) .project-card-logo {
+  content: url("../assets/akqa-logo-black.png");
+}
+
+.project-card:nth-child(3) .project-card-logo {
+  content: url("../assets/logol-logo.png");
+}
+
 .project-card > span {
   padding-right: 108px;
 }
