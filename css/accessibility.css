@@ -19,7 +19,6 @@
   transform: translateY(0);
 }
 
-/* Every text link gets a clear hover state without changing the visual language. */
 a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.contact-links a):hover {
   text-decoration: underline;
   text-underline-offset: .2em;
@@ -62,7 +61,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   border-color: var(--text);
 }
 
-/* Case-study company marks */
+/* Case-study company marks: keep the PNG artwork visible without a white card. */
 .project-card {
   position: relative;
 }
@@ -73,12 +72,13 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   right: 24px;
   width: 86px;
   height: 52px;
-  padding: 8px 10px;
+  padding: 0;
   object-fit: contain;
   object-position: center;
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.18);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  mix-blend-mode: multiply;
 }
 
 /* Use the repository's PNG logo assets for the three case-study cards. */
@@ -88,6 +88,8 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 
 .project-card:nth-child(2) .project-card-logo {
   content: url("../assets/akqa-logo-black.png");
+  filter: invert(1);
+  mix-blend-mode: multiply;
 }
 
 .project-card:nth-child(3) .project-card-logo {
@@ -102,7 +104,6 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   margin-top: 18px;
 }
 
-/* Give keyboard users the same clarity as mouse users. */
 .project-card:focus-visible,
 .personal-project-card:focus-visible,
 .button:focus-visible,
@@ -115,7 +116,6 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   outline-offset: 4px;
 }
 
-/* Respect users who prefer reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -132,7 +132,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
     right: 18px;
     width: 72px;
     height: 44px;
-    padding: 6px 8px;
+    padding: 0;
   }
 
   .project-card > span {
