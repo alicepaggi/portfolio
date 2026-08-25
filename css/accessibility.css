@@ -1,0 +1,126 @@
+/* Accessibility and interaction refinements */
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  transform: translateY(-180%);
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--text);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(23,33,33,.18);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Every text link gets a clear hover state without changing the visual language. */
+a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):hover {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.text-link,
+.project-link,
+.contact-links a,
+.qa-lab-footer a,
+.personal-project-links a,
+.case-back,
+.case-closing .project-link {
+  transition: color .2s ease, border-color .2s ease, opacity .2s ease;
+}
+
+.text-link:hover,
+.project-link:hover,
+.qa-lab-footer a:hover,
+.personal-project-links a:hover,
+.case-back:hover,
+.case-closing .project-link:hover {
+  color: var(--accent-dark);
+}
+
+.dark .project-link:hover,
+.section-dark .project-card strong:hover {
+  color: #7be3e8;
+}
+
+.contact-links a:hover {
+  color: var(--accent-dark);
+  border-bottom-color: var(--accent-dark);
+}
+
+.nav-cv:hover {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+}
+
+/* Case-study company marks */
+.project-card {
+  position: relative;
+}
+
+.project-card-logo {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 86px;
+  height: 52px;
+  padding: 8px 10px;
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+}
+
+.project-card > span {
+  padding-right: 108px;
+}
+
+.project-card-logo + h3 {
+  margin-top: 18px;
+}
+
+/* Give keyboard users the same clarity as mouse users. */
+.project-card:focus-visible,
+.personal-project-card:focus-visible,
+.button:focus-visible,
+.nav-cv:focus-visible,
+.contact-links a:focus-visible,
+.text-link:focus-visible,
+.project-link:focus-visible,
+.case-back:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .project-card-logo {
+    top: 18px;
+    right: 18px;
+    width: 72px;
+    height: 44px;
+    padding: 6px 8px;
+  }
+
+  .project-card > span {
+    padding-right: 90px;
+  }
+}
