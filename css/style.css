@@ -49,7 +49,7 @@ a { color: inherit; }
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 20px;
   font-size: .9rem;
 }
 .nav-menu a { text-decoration: none; }
