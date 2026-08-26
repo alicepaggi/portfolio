@@ -15,9 +15,7 @@
   box-shadow: 0 8px 20px rgba(23,33,33,.18);
 }
 
-.skip-link:focus {
-  transform: translateY(0);
-}
+.skip-link:focus { transform: translateY(0); }
 
 a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.contact-links a):hover {
   text-decoration: underline;
@@ -53,9 +51,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 }
 
 .dark .project-link:hover,
-.section-dark .project-card strong:hover {
-  color: #7be3e8;
-}
+.section-dark .project-card strong:hover { color: #7be3e8; }
 
 .contact-links a:hover {
   color: #fff;
@@ -72,29 +68,11 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 /* Remove oblique arrow glyphs from buttons while keeping the existing copy. */
 .button-secondary,
 .nav-cv,
-.qa-run-button {
-  font-size: 0;
-}
-
-.button-secondary::before {
-  content: "LinkedIn";
-  font-size: .95rem;
-}
-
-.nav-cv::before {
-  content: "Download CV";
-  font-size: .9rem;
-}
-
-.qa-run-button::before {
-  content: "RUN QA SUITE";
-  font-size: .72rem;
-}
-
-/* Keep the About me button unchanged: its downward arrow is intentional. */
-.button-primary {
-  font-size: 1rem;
-}
+.qa-run-button { font-size: 0; }
+.button-secondary::before { content: "LinkedIn"; font-size: .95rem; }
+.nav-cv::before { content: "Download CV"; font-size: .9rem; }
+.qa-run-button::before { content: "RUN QA SUITE"; font-size: .72rem; }
+.button-primary { font-size: 1rem; }
 
 /* Experience role chips: consistent spacing and padding, aligned to the role text. */
 .timeline-role {
@@ -125,11 +103,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 }
 
 /* Expertise cards: restrained, decorative topic marks in the top-right corner. */
-.expertise-card {
-  position: relative;
-  overflow: hidden;
-}
-
+.expertise-card { position: relative; overflow: hidden; }
 .expertise-card::after {
   position: absolute;
   top: 24px;
@@ -148,12 +122,10 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   box-shadow: inset 0 0 0 7px rgba(66,199,206,.05);
   pointer-events: none;
 }
-
 .expertise-card:nth-child(1)::after { content: "✓"; }
 .expertise-card:nth-child(2)::after { content: "◇"; }
 .expertise-card:nth-child(3)::after { content: "⌘"; }
 .expertise-card:nth-child(4)::after { content: "◐"; }
-
 .expertise-card::before {
   content: "";
   position: absolute;
@@ -168,10 +140,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 }
 
 /* Case-study company marks: static, no hover effects, and visually consistent. */
-.project-card {
-  position: relative;
-}
-
+.project-card { position: relative; }
 .project-card-logo {
   position: absolute;
   top: 24px;
@@ -190,24 +159,13 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   transform: none !important;
   transition: none !important;
 }
-
-/* Generali uses the transparent PNG asset. */
-.project-card:nth-child(1) .project-card-logo {
-  content: url("../assets/generali-logo-transparent.png");
-}
-
-/* AKQA stays a PNG and is rendered white on the dark card without its baked white background. */
+.project-card:nth-child(1) .project-card-logo { content: url("../assets/generali-logo-transparent.png"); }
 .project-card:nth-child(2) .project-card-logo {
   content: url("../assets/akqa-logo-black.png");
   filter: invert(1) !important;
   mix-blend-mode: screen !important;
 }
-
-.project-card:nth-child(3) .project-card-logo {
-  content: url("../assets/logol-logo.png");
-}
-
-/* The company marks never change when the card is hovered or focused. */
+.project-card:nth-child(3) .project-card-logo { content: url("../assets/logol-logo.png"); }
 .project-card:hover .project-card-logo,
 .project-card:focus .project-card-logo,
 .project-card:focus-visible .project-card-logo {
@@ -215,22 +173,14 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   transform: none !important;
   transition: none !important;
 }
-
 .project-card:nth-child(2):hover .project-card-logo,
 .project-card:nth-child(2):focus .project-card-logo,
 .project-card:nth-child(2):focus-visible .project-card-logo {
   filter: invert(1) !important;
   mix-blend-mode: screen !important;
 }
-
-.project-card > span {
-  padding-right: 108px;
-}
-
-.project-card-logo + h3 {
-  margin-top: 18px;
-}
-
+.project-card > span { padding-right: 108px; }
+.project-card-logo + h3 { margin-top: 18px; }
 .project-card:focus-visible,
 .personal-project-card:focus-visible,
 .button:focus-visible,
@@ -254,21 +204,54 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 }
 
 @media (max-width: 620px) {
-  .project-card-logo {
-    top: 18px;
-    right: 18px;
-    width: 72px;
-    height: 44px;
-    padding: 0;
-  }
-
-  .project-card > span {
-    padding-right: 90px;
-  }
+  .project-card-logo { top: 18px; right: 18px; width: 72px; height: 44px; padding: 0; }
+  .project-card > span { padding-right: 90px; }
 }
 
-/* Prevent decorative responsive overflow from creating horizontal page scrolling. */
 html,
-body {
-  overflow-x: hidden;
+body { overflow-x: hidden; }
+
+/* Remove the remaining oblique-arrow glyphs without changing the document copy. */
+.text-link,
+.qa-lab-footer a,
+.personal-project-links a,
+.contact-links a,
+.project-card-featured strong {
+  font-size: 0;
 }
+
+.text-link::before,
+.qa-lab-footer a::before,
+.personal-project-links a::before,
+.contact-links a::before,
+.project-card-featured strong::before {
+  display: inline-block;
+  font-size: 1rem;
+  line-height: inherit;
+  color: inherit;
+}
+
+.text-link::before {
+  content: "My professional journey";
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.qa-lab-footer a::before { content: "View Playwright suite on GitHub"; }
+.personal-project-links a::before {
+  content: "View live";
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.project-card-featured strong::before { content: "View case study"; }
+
+.contact-links a {
+  border-bottom: 0;
+  text-decoration: none;
+}
+.contact-links a::before {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.contact-links a:nth-child(1)::before { content: "Email"; }
+.contact-links a:nth-child(2)::before { content: "LinkedIn"; }
+.contact-links a:nth-child(3)::before { content: "GitHub"; }
