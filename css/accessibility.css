@@ -34,6 +34,13 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   transition: color .2s ease, border-color .2s ease, opacity .2s ease;
 }
 
+.text-link,
+.case-back,
+.case-closing .project-link {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
 .text-link:hover,
 .project-link:hover,
 .qa-lab-footer a:hover,
@@ -41,7 +48,8 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 .case-back:hover,
 .case-closing .project-link:hover {
   color: var(--accent-dark);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: .2em;
 }
 
 .dark .project-link:hover,
@@ -59,6 +67,104 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   background: var(--text);
   color: #fff;
   border-color: var(--text);
+}
+
+/* Remove oblique arrow glyphs from buttons while keeping the existing copy. */
+.button-secondary,
+.nav-cv,
+.qa-run-button {
+  font-size: 0;
+}
+
+.button-secondary::before {
+  content: "LinkedIn";
+  font-size: .95rem;
+}
+
+.nav-cv::before {
+  content: "Download CV";
+  font-size: .9rem;
+}
+
+.qa-run-button::before {
+  content: "RUN QA SUITE";
+  font-size: .72rem;
+}
+
+/* Keep the About me button unchanged: its downward arrow is intentional. */
+.button-primary {
+  font-size: 1rem;
+}
+
+/* Experience role chips: consistent spacing and padding, aligned to the role text. */
+.timeline-role {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.timeline-role span {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  white-space: normal;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: .68rem;
+  line-height: 1.2;
+  letter-spacing: .12em;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+}
+
+/* Expertise cards: restrained, decorative topic marks in the top-right corner. */
+.expertise-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.expertise-card::after {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(25,155,163,.28);
+  border-radius: 50%;
+  color: var(--accent-dark);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.35rem;
+  line-height: 1;
+  opacity: .9;
+  box-shadow: inset 0 0 0 7px rgba(66,199,206,.05);
+  pointer-events: none;
+}
+
+.expertise-card:nth-child(1)::after { content: "✓"; }
+.expertise-card:nth-child(2)::after { content: "◇"; }
+.expertise-card:nth-child(3)::after { content: "⌘"; }
+.expertise-card:nth-child(4)::after { content: "◐"; }
+
+.expertise-card::before {
+  content: "";
+  position: absolute;
+  top: 51px;
+  right: 51px;
+  width: 70px;
+  height: 1px;
+  background: rgba(25,155,163,.16);
+  transform: rotate(-45deg);
+  transform-origin: right center;
+  pointer-events: none;
 }
 
 /* Case-study company marks: static, no hover effects, and visually consistent. */
