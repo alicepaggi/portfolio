@@ -156,14 +156,14 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   transition: none !important;
 }
 .project-card:nth-child(1) .project-card-logo { content: url("../assets/generali-logo-transparent.png"); }
-.project-card:nth-child(2) .project-card-logo { content: url("../assets/akqa-logo-black.png"); filter: invert(1) !important; mix-blend-mode: screen !important; }
+.project-card:nth-child(2) .project-card-logo { content: url("../assets/akqa-cover.png"); filter: none !important; mix-blend-mode: normal !important; width: 180px; height: 92px; max-width: 180px; max-height: 92px; object-fit: cover; object-position: center; top: 24px; right: 24px; }
 .project-card:nth-child(3) .project-card-logo { content: url("../assets/logol-logo.png"); }
 .project-card:hover .project-card-logo,
 .project-card:focus .project-card-logo,
 .project-card:focus-visible .project-card-logo { opacity: 1 !important; transform: none !important; transition: none !important; }
 .project-card:nth-child(2):hover .project-card-logo,
 .project-card:nth-child(2):focus .project-card-logo,
-.project-card:nth-child(2):focus-visible .project-card-logo { filter: invert(1) !important; mix-blend-mode: screen !important; }
+.project-card:nth-child(2):focus-visible .project-card-logo { filter: none !important; mix-blend-mode: normal !important; }
 .project-card > span { padding-right: 108px; }
 .project-card-logo + h3 { margin-top: 18px; }
 .project-card:focus-visible,
@@ -182,6 +182,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 
 @media (max-width: 620px) {
   .project-card-logo { top: 18px; right: 18px; width: 72px; height: 44px; padding: 0; }
+  .project-card:nth-child(2) .project-card-logo { width: 150px; height: 76px; max-width: 150px; max-height: 76px; top: 18px; right: 18px; }
   .project-card > span { padding-right: 90px; }
 }
 
