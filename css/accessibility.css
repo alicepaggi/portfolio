@@ -263,14 +263,25 @@ body { overflow-x: hidden; }
 /* Final interaction pass: centre the LinkedIn button, remove the QA-suite arrow,
    underline case-study links, and give every text link a clear hover state. */
 .button-secondary {
-  width: 212px;
-  min-width: 0;
+  width: 280px !important;
+  min-width: 280px !important;
+  max-width: 280px !important;
+  flex: 0 0 280px;
+  box-sizing: border-box;
   padding: 14px 19px;
   justify-content: center;
+  align-items: center;
   text-align: center;
   font-size: 0 !important;
 }
-.button-secondary::before { font-size: .95rem !important; }
+.button-secondary::before {
+  content: "LinkedIn";
+  display: block;
+  width: 100%;
+  font-size: .95rem !important;
+  line-height: 1.2;
+  text-align: center;
+}
 
 .qa-run-button {
   font-size: 0 !important;
@@ -321,7 +332,11 @@ body { overflow-x: hidden; }
   min-height: 29px;
 }
 
-/* Keep the LinkedIn button visually identical in size to About me. */
 @media (max-width: 620px) {
-  .button-secondary { width: 212px; }
+  .button-secondary {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 280px !important;
+    flex: 0 1 280px;
+  }
 }
