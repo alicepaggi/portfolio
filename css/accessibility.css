@@ -263,10 +263,10 @@ body { overflow-x: hidden; }
 /* Final interaction pass: centre the LinkedIn button, remove the QA-suite arrow,
    underline case-study links, and give every text link a clear hover state. */
 .button-secondary {
-  width: 240px !important;
-  min-width: 240px !important;
-  max-width: 240px !important;
-  flex: 0 0 240px;
+  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 180px !important;
+  flex: 0 0 180px;
   box-sizing: border-box;
   padding: 14px 19px;
   justify-content: center;
@@ -334,9 +334,9 @@ body { overflow-x: hidden; }
 
 @media (max-width: 620px) {
   .button-secondary {
-    width: 240px !important;
+    width: 180px !important;
     min-width: 0 !important;
-    max-width: 240px !important;
-    flex: 0 1 240px;
+    max-width: 180px !important;
+    flex: 0 1 180px;
   }
 }
