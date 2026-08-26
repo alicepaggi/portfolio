@@ -211,7 +211,7 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
 html,
 body { overflow-x: hidden; }
 
-/* Remove the remaining oblique-arrow glyphs without changing the document copy. */
+/* Remove remaining arrow glyphs from text links while preserving their labels. */
 .text-link,
 .qa-lab-footer a,
 .personal-project-links a,
@@ -242,7 +242,11 @@ body { overflow-x: hidden; }
   text-decoration: underline;
   text-underline-offset: .2em;
 }
-.project-card-featured strong::before { content: "View case study"; }
+.project-card-featured strong::before {
+  content: "View case study";
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
 
 .contact-links a {
   border-bottom: 0;
@@ -255,3 +259,57 @@ body { overflow-x: hidden; }
 .contact-links a:nth-child(1)::before { content: "Email"; }
 .contact-links a:nth-child(2)::before { content: "LinkedIn"; }
 .contact-links a:nth-child(3)::before { content: "GitHub"; }
+
+/* Final interaction pass: centre the LinkedIn button, remove the QA-suite arrow,
+   underline case-study links, and give every text link a clear hover state. */
+.button-secondary {
+  min-width: 205px;
+  justify-content: center;
+  text-align: center;
+  font-size: 0 !important;
+}
+.button-secondary::before { font-size: .95rem !important; }
+
+.qa-run-button {
+  font-size: 0 !important;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.qa-run-button::before { font-size: .72rem !important; }
+.qa-run-button:hover {
+  background: var(--accent-dark);
+  color: #fff;
+}
+
+.project-card-featured strong {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+  text-decoration-thickness: 1px;
+  transition: color .2s ease, opacity .2s ease;
+}
+.project-card-featured:hover strong,
+.project-card-featured:focus-visible strong {
+  color: #7be3e8;
+}
+
+.personal-project-links a,
+.qa-lab-footer a,
+.text-link,
+.contact-links a {
+  transition: color .2s ease, opacity .2s ease;
+}
+.personal-project-links a:hover,
+.qa-lab-footer a:hover,
+.text-link:hover {
+  color: var(--accent-dark);
+  opacity: .78;
+}
+
+/* Equal visual breathing room inside the experience chips. */
+.timeline-role span {
+  padding: 7px 12px;
+  line-height: 1;
+  min-height: 29px;
+}
