@@ -263,7 +263,9 @@ body { overflow-x: hidden; }
 /* Final interaction pass: centre the LinkedIn button, remove the QA-suite arrow,
    underline case-study links, and give every text link a clear hover state. */
 .button-secondary {
-  min-width: 205px;
+  width: 212px;
+  min-width: 0;
+  padding: 14px 19px;
   justify-content: center;
   text-align: center;
   font-size: 0 !important;
@@ -282,16 +284,21 @@ body { overflow-x: hidden; }
   color: #fff;
 }
 
-.project-card-featured strong {
+/* Case-study CTA: clean text without an underline. */
+.project-card-featured strong,
+.project-card-featured strong::before {
   color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: .2em;
-  text-decoration-thickness: 1px;
+  text-decoration: none !important;
+  text-underline-offset: 0;
+  text-decoration-thickness: 0;
   transition: color .2s ease, opacity .2s ease;
 }
 .project-card-featured:hover strong,
-.project-card-featured:focus-visible strong {
+.project-card-featured:hover strong::before,
+.project-card-featured:focus-visible strong,
+.project-card-featured:focus-visible strong::before {
   color: #7be3e8;
+  text-decoration: none !important;
 }
 
 .personal-project-links a,
@@ -312,4 +319,9 @@ body { overflow-x: hidden; }
   padding: 7px 12px;
   line-height: 1;
   min-height: 29px;
+}
+
+/* Keep the LinkedIn button visually identical in size to About me. */
+@media (max-width: 620px) {
+  .button-secondary { width: 212px; }
 }
