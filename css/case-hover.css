@@ -18,9 +18,11 @@
   color: #fff;
 }
 
+/* Photo carousel arrows: white background with black arrow on hover */
 .case-page .slider-button:hover {
-  background: currentColor;
-  color: var(--bg);
+  background: #fff;
+  color: #000;
+  border-color: #fff;
   transform: translateY(-2px);
 }
 
