@@ -135,6 +135,11 @@ body { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
 .qa-lab-footer a:hover,
 .text-link:hover { color: var(--accent-dark); opacity: .78; }
 
+/* Personal AP wordmark */
+.brand { display: inline-flex; align-items: center; gap: 11px; }
+.brand::before { content: ""; width: 34px; height: 34px; flex: 0 0 34px; background: url("../assets/ap-mark.svg") center / contain no-repeat; }
+.brand:hover { color: var(--text); text-decoration: none; }
+
 @media (max-width: 900px) {
   .nav-menu { position: fixed; top: 76px; left: 0; right: 0; bottom: 0; width: 100%; min-height: calc(100dvh - 76px); padding: 24px 16px calc(28px + env(safe-area-inset-bottom)); flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); border: 0; border-radius: 0; box-shadow: none; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; }
   .nav-menu a { padding: 17px 0; border-bottom: 1px solid var(--line); font-family: "Space Grotesk", sans-serif; font-size: 1.05rem; font-weight: 600; }
@@ -143,6 +148,8 @@ body { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
 }
 
 @media (max-width: 620px) {
+  .brand { gap: 9px; }
+  .brand::before { width: 30px; height: 30px; flex-basis: 30px; }
   .button-secondary { width: 180px !important; min-width: 0 !important; max-width: 180px !important; flex: 0 1 180px; }
   .project-card > span { padding-right: 0 !important; }
 }
