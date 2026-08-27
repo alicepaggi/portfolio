@@ -8,6 +8,7 @@ test.describe('Main navigation', () => {
   const navTargets = [
     { label: 'About', href: '#about' },
     { label: 'Expertise', href: '#expertise' },
+    { label: 'QA Lab', href: '#qa-lab' },
     { label: 'Experience', href: '#experience' },
     { label: 'Work', href: '#work' },
     { label: 'Education', href: '#education' },
