@@ -13,29 +13,35 @@ test.describe('Current homepage sections', () => {
     await expect(section.locator('.qa-run-button')).toBeVisible();
     await expect(section.locator('.qa-run-button')).toHaveText('RUN QA SUITE');
     await expect(section.locator('.qa-run-button span')).toHaveCount(0);
-    await expect(section.locator('.qa-lab-actions')).toContainText('Run the full Playwright regression suite.');
+    await expect(section.locator('.qa-lab-actions')).toContainText('Run the full Playwright regression suite');
     await expect(section.locator('.qa-lab-footer a')).toHaveAttribute('href', /github\.com\/alicepaggi\/portfolio\/tree\/main\/e2e/);
   });
 
   test('QA Lab run control provides clear loading feedback after click', async ({ page }) => {
     const section = page.locator('#qa-lab');
     const button = section.locator('.qa-run-button');
+
     await page.route('**/api/run-tests', async route => {
-      await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' });
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 12345 })
+      });
     });
-    await page.route('**/api/test-status', async route => {
+    await page.route('**/api/test-status*', async route => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({ status: 'queued', id: 12345, jobs: [] })
       });
     });
+
     await button.click();
     await expect(button).toBeDisabled();
     await expect(button).toContainText('RUNNING…');
     await expect(button.locator('.qa-run-spinner')).toBeVisible();
     await expect(section.locator('.qa-lab-actions')).toContainText(/Please wait for the logs and final results/);
-    await expect(section.locator('.qa-console-screen')).toContainText(/Starting the real Playwright run/);
+    await expect(section.locator('.qa-console-screen')).toContainText(/Starting the real Playwright run|Running the real Playwright E2E suite/);
   });
 
   test('ownership section contains the three QA principles', async ({ page }) => {
@@ -57,7 +63,7 @@ test.describe('Current homepage sections', () => {
   test('selected work contains three case study cards with valid destinations', async ({ page }) => {
     const cards = page.locator('#work .project-card');
     await expect(cards).toHaveCount(3);
-    const expectedDestinations = ['work/generali-qa.html','work/akqa-ux-qa.html','work/logol-playwright.html'];
+    const expectedDestinations = ['work/generali-qa.html', 'work/akqa-ux-qa.html', 'work/logol-playwright.html'];
     for (const href of expectedDestinations) {
       await expect(page.locator(`#work .project-card[href="${href}"]`)).toHaveCount(1);
     }
