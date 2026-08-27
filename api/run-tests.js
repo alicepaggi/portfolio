@@ -10,6 +10,34 @@ function setCors(res, origin) {
   res.setHeader('Cache-Control', 'no-store');
 }
 
+async function github(path, token) {
+  const response = await fetch(`https://api.github.com${path}`, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token}`,
+      'X-GitHub-Api-Version': API_VERSION,
+    },
+  });
+  if (!response.ok) throw new Error(`GitHub API ${response.status}`);
+  return response.json();
+}
+
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function findDispatchedRun(token, dispatchedAt) {
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const data = await github(`/repos/${REPO}/actions/workflows/${WORKFLOW}/runs?event=workflow_dispatch&per_page=10`, token);
+    const run = (data.workflow_runs || []).find(item => {
+      const createdAt = new Date(item.created_at).getTime();
+      return createdAt >= dispatchedAt - 1000;
+    });
+
+    if (run) return run;
+    await wait(500);
+  }
+  return null;
+}
+
 export default async function handler(req, res) {
   const origin = req.headers.origin || '';
   setCors(res, origin);
@@ -21,6 +49,7 @@ export default async function handler(req, res) {
   if (!token) return res.status(500).json({ error: 'Backend is not configured yet.' });
 
   try {
+    const dispatchedAt = Date.now();
     const response = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/${WORKFLOW}/dispatches`, {
       method: 'POST',
       headers: {
@@ -38,10 +67,13 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: 'Unable to start the QA workflow.' });
     }
 
+    const run = await findDispatchedRun(token, dispatchedAt);
+
     return res.status(202).json({
-      status: 'queued',
+      status: run?.status || 'queued',
       message: 'QA workflow queued successfully.',
       workflow: WORKFLOW,
+      run_id: run?.id || null,
     });
   } catch (error) {
     console.error(error);
