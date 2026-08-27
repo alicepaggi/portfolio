@@ -18,6 +18,28 @@
   color: #fff;
 }
 
+/* Keep project information and automation work visually distinct */
+.case-page .automation-suite {
+  margin-top: 48px;
+  padding-top: 34px;
+  border-top: 1px solid rgba(255,255,255,.18);
+}
+
+.case-page .automation-suite .eyebrow {
+  margin-bottom: 10px;
+}
+
+.case-page .automation-suite h4 {
+  margin: 0 0 8px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.45rem;
+  line-height: 1.2;
+}
+
+.case-page .automation-suite .case-copy-block {
+  margin: 0 0 22px;
+}
+
 /* Photo carousel arrows: white background with black arrow on hover */
 .case-page .slider-button:hover {
   background: #fff;
