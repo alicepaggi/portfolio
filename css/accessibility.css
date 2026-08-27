@@ -136,9 +136,12 @@ body { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
 .text-link:hover { color: var(--accent-dark); opacity: .78; }
 
 /* Personal AP wordmark */
-.brand { display: inline-flex; align-items: center; gap: 11px; }
-.brand::before { content: ""; width: 34px; height: 34px; flex: 0 0 34px; background: url("../assets/ap-mark.svg") center / contain no-repeat; }
-.brand:hover { color: var(--text); text-decoration: none; }
+.brand { display: inline-flex; align-items: center; gap: 11px; transition: color .2s ease, opacity .2s ease; }
+.brand::before { content: ""; width: 34px; height: 34px; flex: 0 0 34px; background: url("../assets/ap-mark.svg") center / contain no-repeat; transition: filter .2s ease; }
+.brand:hover,
+.brand:focus-visible { color: var(--accent-dark); text-decoration: none; }
+.brand:hover::before,
+.brand:focus-visible::before { filter: invert(54%) sepia(58%) saturate(617%) hue-rotate(134deg) brightness(90%) contrast(89%); }
 
 @media (max-width: 900px) {
   .nav-menu { position: fixed; top: 76px; left: 0; right: 0; bottom: 0; width: 100%; min-height: calc(100dvh - 76px); padding: 24px 16px calc(28px + env(safe-area-inset-bottom)); flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); border: 0; border-radius: 0; box-shadow: none; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; }
