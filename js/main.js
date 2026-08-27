@@ -118,8 +118,6 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
   `;
   document.head.appendChild(style);
 
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
   function setConsole(lines) {
     consoleScreen.innerHTML = lines.map(line => `<div class="qa-console-line ${line.muted ? 'qa-muted' : ''}" ${line.live ? 'data-live' : ''}>${line.text}</div>`).join('');
   }
@@ -230,7 +228,7 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
       const data = await getStatus(runId);
       renderStatus(data);
       if (data.status === 'completed') return;
-      pollTimer = window.setTimeout(() => poll(runId), 2500);
+      pollTimer = window.setTimeout(() => poll(runId), 1500);
     } catch (error) {
       console.error('QA Lab status error:', error);
       actionHint.textContent = 'Unable to read the live status. Please check the GitHub Actions run.';
@@ -260,10 +258,14 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || `Request failed (${response.status})`);
       actionHint.textContent = `Workflow queued: 0/${TOTAL_TESTS} tests passed.`;
-      await sleep(2500);
-      const latest = await getStatus();
-      renderStatus(latest);
-      poll(latest.id);
+      const runId = result.run_id || null;
+      if (runId) {
+        const latest = await getStatus(runId);
+        renderStatus(latest);
+        poll(runId);
+      } else {
+        poll();
+      }
     } catch (error) {
       console.error('QA Lab run error:', error);
       setButtonState(false);
