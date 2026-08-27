@@ -45,12 +45,16 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
   const consoleScreen = document.querySelector('.qa-console-screen');
   const consoleBrowser = document.querySelector('.qa-console-browser');
   const actionHint = document.querySelector('.qa-lab-actions > span');
+  const footerSummary = document.querySelector('.qa-lab-footer > span');
   const rows = [...document.querySelectorAll('.qa-test-row')];
   const metrics = [...document.querySelectorAll('.qa-lab-metrics strong')];
   if (!lab || !button || !consoleScreen) return;
 
   const API_BASE = window.QA_LAB_API_BASE || 'https://portfolio-psi-one-uitl02qr3a.vercel.app';
   let pollTimer = null;
+
+  if (metrics[0]) metrics[0].textContent = '49';
+  if (footerSummary) footerSummary.textContent = 'FULL REGRESSION SUITE · 49 TESTS';
 
   const style = document.createElement('style');
   style.textContent = `
@@ -59,6 +63,8 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
     .qa-lab-section .section-heading h2{color:#fff}
     .qa-lab-section .section-lead{color:#b9c4c4}
     .qa-lab.is-running{box-shadow:0 0 0 1px rgba(66,199,206,.25),0 24px 55px rgba(0,0,0,.25)}
+    .qa-run-button{font-size:.72rem!important}
+    .qa-run-button::before{content:none!important;display:none!important}
     .qa-run-button:not(:disabled){background:var(--accent);color:var(--text);cursor:pointer}
     .qa-run-button:not(:disabled):hover{background:#fff}
     .qa-run-button.is-running{display:inline-flex;align-items:center;justify-content:center;gap:8px}
