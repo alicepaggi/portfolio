@@ -29,6 +29,16 @@ test.describe('Responsive layout (mobile viewport)', () => {
     await expect(page.locator('.nav-toggle')).toBeVisible();
   });
 
+  test('the sticky header remains visible after scrolling on mobile', async ({ page }) => {
+    await page.goto('/');
+    const header = page.locator('.site-header');
+    await page.locator('#work').scrollIntoViewIfNeeded();
+    await expect(header).toBeVisible();
+    await expect(header).toHaveCSS('position', 'fixed');
+    const box = await header.boundingBox();
+    expect(box.y).toBeLessThanOrEqual(1);
+  });
+
   test('the hero stacks correctly on mobile', async ({ page }) => {
     await page.goto('/');
 
