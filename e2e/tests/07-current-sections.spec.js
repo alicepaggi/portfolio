@@ -9,7 +9,7 @@ test.describe('Current homepage sections', () => {
     const section = page.locator('#qa-lab');
     await expect(section).toBeVisible();
     await expect(section).toContainText('PLAYWRIGHT E2E AUTOMATION');
-    await expect(section.locator('.qa-test-row')).toHaveCount(6);
+    await expect(section.locator('.qa-test-row')).toHaveCount(7);
     await expect(section.locator('.qa-lab-metrics strong').first()).toHaveText('52');
     await expect(section.locator('.qa-lab-footer > span')).toHaveText('FULL REGRESSION SUITE · 52 TESTS');
     await expect(section.locator('.qa-run-button')).toBeVisible();
@@ -25,7 +25,7 @@ test.describe('Current homepage sections', () => {
     const firstToggle = toggles.first();
     const firstPanel = section.locator('#qa-test-details-0');
 
-    await expect(toggles).toHaveCount(6);
+    await expect(toggles).toHaveCount(7);
     await expect(firstToggle).toHaveAttribute('aria-expanded', 'false');
     await expect(firstPanel).toBeHidden();
 
@@ -59,7 +59,7 @@ test.describe('Current homepage sections', () => {
     await expect(button).toContainText('RUNNING…');
     await expect(button.locator('.qa-run-spinner')).toBeVisible();
     await expect(button).toHaveCSS('font-size', '11.52px');
-    await expect(section.locator('.qa-lab-actions')).toContainText(/Please wait for the logs and final results/);
+    await expect(section.locator('.qa-lab-actions')).toContainText(/Workflow queued: 0\/52 tests passed\.|Running: 0\/52 tests passed so far\./);
     await expect(section.locator('.qa-console-screen')).toContainText(/Starting the real Playwright run|Running the real Playwright E2E suite/);
   });
 
