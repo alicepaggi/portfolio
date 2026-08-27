@@ -156,7 +156,6 @@ a:not(.button):not(.project-card):not(.personal-project-card):not(.nav-cv):not(.
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
 
-html,
 body { overflow-x: hidden; }
 
 .text-link,
