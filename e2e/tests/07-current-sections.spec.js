@@ -10,8 +10,8 @@ test.describe('Current homepage sections', () => {
     await expect(section).toBeVisible();
     await expect(section).toContainText('PLAYWRIGHT E2E AUTOMATION');
     await expect(section.locator('.qa-test-row')).toHaveCount(6);
-    await expect(section.locator('.qa-lab-metrics strong').first()).toHaveText('49');
-    await expect(section.locator('.qa-lab-footer > span')).toHaveText('FULL REGRESSION SUITE · 49 TESTS');
+    await expect(section.locator('.qa-lab-metrics strong').first()).toHaveText('52');
+    await expect(section.locator('.qa-lab-footer > span')).toHaveText('FULL REGRESSION SUITE · 52 TESTS');
     await expect(section.locator('.qa-run-button')).toBeVisible();
     await expect(section.locator('.qa-run-button')).toHaveText('RUN QA SUITE');
     await expect(section.locator('.qa-run-button span')).toHaveCount(0);
@@ -48,18 +48,10 @@ test.describe('Current homepage sections', () => {
     const button = section.locator('.qa-run-button');
 
     await page.route('**/api/run-tests', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 12345 })
-      });
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ id: 12345 }) });
     });
     await page.route('**/api/test-status*', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ status: 'queued', id: 12345, jobs: [] })
-      });
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ status: 'queued', id: 12345, jobs: [] }) });
     });
 
     await button.click();
@@ -91,9 +83,7 @@ test.describe('Current homepage sections', () => {
     const cards = page.locator('#work .project-card');
     await expect(cards).toHaveCount(3);
     const expectedDestinations = ['work/generali-qa.html', 'work/akqa-ux-qa.html', 'work/logol-playwright.html'];
-    for (const href of expectedDestinations) {
-      await expect(page.locator(`#work .project-card[href="${href}"]`)).toHaveCount(1);
-    }
+    for (const href of expectedDestinations) await expect(page.locator(`#work .project-card[href="${href}"]`)).toHaveCount(1);
   });
 
   test('personal projects section contains two external project links', async ({ page }) => {
