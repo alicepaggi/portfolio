@@ -1,0 +1,49 @@
+/* Shared interaction states for all case study pages */
+.case-page a,
+.case-page button {
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease, opacity .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.case-page .case-back:hover {
+  color: var(--text);
+  transform: translateX(-4px);
+}
+
+.case-page .project-link:hover {
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+.case-page .dark .project-link:hover {
+  color: #fff;
+}
+
+.case-page .slider-button:hover {
+  background: currentColor;
+  color: var(--bg);
+  transform: translateY(-2px);
+}
+
+.case-page .slider-dot:hover {
+  opacity: .8;
+  transform: scale(1.35);
+}
+
+.case-page .case-back:active,
+.case-page .project-link:active,
+.case-page .slider-button:active,
+.case-page .slider-dot:active {
+  transform: scale(.96);
+}
+
+.case-page .case-logo-generali {
+  width: 120px;
+  max-height: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-page a,
+  .case-page button {
+    transition: none;
+  }
+}
