@@ -2,6 +2,16 @@ const REPO = 'alicepaggi/portfolio';
 const WORKFLOW = 'qa-lab.yml';
 const API_VERSION = '2022-11-28';
 const ALLOWED_ORIGIN = 'https://alicepaggi.github.io';
+const TEST_STEPS = [
+  ['Run Homepage smoke tests [6]', 6],
+  ['Run Main navigation [10]', 10],
+  ['Run Case studies [7]', 7],
+  ['Run External links [6]', 6],
+  ['Run Interactive components [6]', 6],
+  ['Run Responsive layout [8]', 8],
+  ['Run Current sections [9]', 9],
+];
+const TOTAL_TESTS = TEST_STEPS.reduce((total, [, count]) => total + count, 0);
 
 function cors(res, origin) {
   res.setHeader('Access-Control-Allow-Origin', origin === ALLOWED_ORIGIN ? origin : ALLOWED_ORIGIN);
@@ -23,6 +33,23 @@ async function github(path) {
   return response.json();
 }
 
+function getProgress(jobs, runData) {
+  const chromium = jobs.find(job => job.name.toLowerCase().includes('chromium'));
+  const steps = chromium?.steps || [];
+  let passed = 0;
+  let failed = 0;
+
+  for (const [name, count] of TEST_STEPS) {
+    const step = steps.find(item => item.name === name);
+    if (step?.conclusion === 'success') passed += count;
+    if (step?.conclusion === 'failure' || step?.conclusion === 'timed_out') failed += count;
+  }
+
+  if (runData.status === 'completed' && runData.conclusion === 'success') passed = TOTAL_TESTS;
+
+  return { passed, failed, total: TOTAL_TESTS };
+}
+
 export default async function handler(req, res) {
   const origin = req.headers.origin || '';
   cors(res, origin);
@@ -40,7 +67,7 @@ export default async function handler(req, res) {
       ? await github(`/repos/${REPO}/actions/runs/${runId}`)
       : (await github(`/repos/${REPO}/actions/workflows/${WORKFLOW}/runs?event=workflow_dispatch&per_page=1`)).workflow_runs?.[0];
 
-    if (!runData) return res.status(404).json({ status: 'idle' });
+    if (!runData) return res.status(404).json({ status: 'idle', progress: { passed: 0, failed: 0, total: TOTAL_TESTS } });
 
     const jobsData = await github(`/repos/${REPO}/actions/runs/${runData.id}/jobs?per_page=100`);
     const jobs = (jobsData.jobs || []).map(job => ({
@@ -63,6 +90,7 @@ export default async function handler(req, res) {
       created_at: runData.created_at,
       updated_at: runData.updated_at,
       html_url: runData.html_url,
+      progress: getProgress(jobs, runData),
       jobs,
     });
   } catch (error) {
