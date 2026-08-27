@@ -34,7 +34,7 @@ test.describe('Responsive layout (mobile viewport)', () => {
     const header = page.locator('.site-header');
     await page.locator('#work').scrollIntoViewIfNeeded();
     await expect(header).toBeVisible();
-    await expect(header).toHaveCSS('position', 'fixed');
+    await expect(header).toHaveCSS('position', 'sticky');
     const box = await header.boundingBox();
     expect(box.y).toBeLessThanOrEqual(1);
   });
