@@ -10,11 +10,37 @@ test.describe('Current homepage sections', () => {
     await expect(section).toBeVisible();
     await expect(section).toContainText('PLAYWRIGHT E2E AUTOMATION');
     await expect(section.locator('.qa-test-row')).toHaveCount(6);
+    await expect(section.locator('.qa-lab-metrics strong').first()).toHaveText('49');
+    await expect(section.locator('.qa-lab-footer > span')).toHaveText('FULL REGRESSION SUITE · 49 TESTS');
     await expect(section.locator('.qa-run-button')).toBeVisible();
     await expect(section.locator('.qa-run-button')).toHaveText('RUN QA SUITE');
     await expect(section.locator('.qa-run-button span')).toHaveCount(0);
     await expect(section.locator('.qa-lab-actions')).toContainText('Run the full Playwright regression suite');
     await expect(section.locator('.qa-lab-footer a')).toHaveAttribute('href', /github\.com\/alicepaggi\/portfolio\/tree\/main\/e2e/);
+  });
+
+  test('QA Lab accordions open and close with accessible state changes', async ({ page }) => {
+    const section = page.locator('#qa-lab');
+    const toggles = section.locator('.qa-test-toggle');
+    const firstToggle = toggles.first();
+    const firstPanel = section.locator('#qa-test-details-0');
+
+    await expect(toggles).toHaveCount(6);
+    await expect(firstToggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(firstPanel).toBeHidden();
+
+    await firstToggle.click();
+    await expect(firstToggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(firstPanel).toBeVisible();
+    await expect(firstPanel).toContainText('The homepage loads with the correct title and key content.');
+
+    await firstToggle.press('Enter');
+    await expect(firstToggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(firstPanel).toBeHidden();
+
+    await firstToggle.press('Space');
+    await expect(firstToggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(firstPanel).toBeVisible();
   });
 
   test('QA Lab run control provides clear loading feedback after click', async ({ page }) => {
@@ -40,6 +66,7 @@ test.describe('Current homepage sections', () => {
     await expect(button).toBeDisabled();
     await expect(button).toContainText('RUNNING…');
     await expect(button.locator('.qa-run-spinner')).toBeVisible();
+    await expect(button).toHaveCSS('font-size', '11.52px');
     await expect(section.locator('.qa-lab-actions')).toContainText(/Please wait for the logs and final results/);
     await expect(section.locator('.qa-console-screen')).toContainText(/Starting the real Playwright run|Running the real Playwright E2E suite/);
   });
