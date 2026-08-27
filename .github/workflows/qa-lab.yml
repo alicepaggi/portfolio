@@ -40,8 +40,32 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run Chromium suite
-        run: npx playwright test --project=chromium-desktop
+      - name: Run Homepage smoke tests [6]
+        run: npx playwright test tests/01-homepage.spec.js --project=chromium-desktop
+
+      - name: Run Main navigation [10]
+        if: success() || failure()
+        run: npx playwright test tests/02-navigation.spec.js --project=chromium-desktop
+
+      - name: Run Case studies [7]
+        if: success() || failure()
+        run: npx playwright test tests/03-case-studies.spec.js --project=chromium-desktop
+
+      - name: Run External links [6]
+        if: success() || failure()
+        run: npx playwright test tests/04-external-links.spec.js --project=chromium-desktop
+
+      - name: Run Interactive components [6]
+        if: success() || failure()
+        run: npx playwright test tests/05-interactive-components.spec.js --project=chromium-desktop
+
+      - name: Run Responsive layout [8]
+        if: success() || failure()
+        run: npx playwright test tests/06-responsive.spec.js --project=chromium-desktop
+
+      - name: Run Current sections [9]
+        if: success() || failure()
+        run: npx playwright test tests/07-current-sections.spec.js --project=chromium-desktop
 
       - name: Upload Chromium report
         if: always()
