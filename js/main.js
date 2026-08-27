@@ -51,7 +51,6 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
 
   const API_BASE = window.QA_LAB_API_BASE || 'https://portfolio-psi-one-uitl02qr3a.vercel.app';
   let pollTimer = null;
-  let activeRunId = null;
 
   const style = document.createElement('style');
   style.textContent = `
@@ -62,11 +61,15 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
     .qa-lab.is-running{box-shadow:0 0 0 1px rgba(66,199,206,.25),0 24px 55px rgba(0,0,0,.25)}
     .qa-run-button:not(:disabled){background:var(--accent);color:var(--text);cursor:pointer}
     .qa-run-button:not(:disabled):hover{background:#fff}
+    .qa-run-button.is-running{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .qa-run-spinner{width:13px;height:13px;border:2px solid rgba(23,33,33,.28);border-top-color:var(--text);border-radius:50%;animation:qaSpin .75s linear infinite}
     .qa-status.is-running{background:rgba(66,199,206,.18);color:var(--accent);animation:qaPulse 1.4s infinite}
     .qa-status.is-failed{background:rgba(255,100,100,.14);color:#ff9a9a}
     .qa-status.is-passed{background:rgba(66,199,206,.14);color:var(--accent-dark)}
     .qa-console-line[data-live]{color:#dbe4e3}
+    .qa-live-run-link{color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px}
     @keyframes qaPulse{50%{transform:scale(.8);opacity:.55}}
+    @keyframes qaSpin{to{transform:rotate(360deg)}}
   `;
   document.head.appendChild(style);
 
@@ -74,6 +77,14 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
 
   function setConsole(lines) {
     consoleScreen.innerHTML = lines.map(line => `<div class="qa-console-line ${line.muted ? 'qa-muted' : ''}" ${line.live ? 'data-live' : ''}>${line.text}</div>`).join('');
+  }
+
+  function setButtonState(running) {
+    button.disabled = running;
+    button.classList.toggle('is-running', running);
+    button.innerHTML = running
+      ? '<span class="qa-run-spinner" aria-hidden="true"></span><span>RUNNING…</span>'
+      : 'RUN QA SUITE';
   }
 
   function statusIcon(status, conclusion) {
@@ -88,7 +99,6 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
     const chromium = jobs.find(job => job.name.toLowerCase().includes('chromium'));
     const safari = jobs.find(job => job.name.toLowerCase().includes('mobile safari'));
     const states = [chromium, safari];
-
     rows.forEach((row, index) => {
       const status = states[index < 5 ? 0 : 1];
       const icon = row.querySelector('.qa-status');
@@ -105,34 +115,32 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
     const running = data.status === 'queued' || data.status === 'in_progress';
     const passed = data.conclusion === 'success';
     const failed = data.conclusion === 'failure' || data.conclusion === 'timed_out';
-
     lab.classList.toggle('is-running', running);
-    button.disabled = running;
-    button.innerHTML = running ? 'RUNNING…' : 'RUN QA SUITE <span>↗</span>';
-    actionHint.textContent = running ? 'Playwright is running on GitHub Actions' : (passed ? 'Latest run passed' : failed ? 'Latest run failed' : 'Ready to run');
+    setButtonState(running);
+    actionHint.textContent = running
+      ? 'Tests are running. Please wait for the logs and final results.'
+      : passed
+        ? 'Latest run completed successfully. You can verify the logs below.'
+        : failed
+          ? 'Latest run finished with failures. Check the logs for details.'
+          : 'Run the full Playwright regression suite.';
     consoleBrowser.textContent = running ? 'Live · GitHub Actions' : `Run #${data.id || '—'}`;
-
     updateRows(data);
-
     const completedJobs = (data.jobs || []).filter(job => job.status === 'completed').length;
     metrics[2].textContent = running ? `${completedJobs}/2` : (passed ? '100%' : failed ? 'FAILED' : '—');
-
-    const lines = [
-      {
-        text: `<span class="qa-prompt">›</span> ${running ? 'Running Playwright E2E suite…' : passed ? 'Playwright E2E suite completed successfully.' : failed ? 'Playwright E2E suite finished with failures.' : 'QA workflow ready.'}`,
-        live: running
-      },
-    ];
-
+    const lines = [{
+      text: `<span class="qa-prompt">›</span> ${running ? 'Running the real Playwright E2E suite…' : passed ? 'Playwright E2E suite completed successfully.' : failed ? 'Playwright E2E suite finished with failures.' : 'QA workflow ready.'}`,
+      live: running
+    }];
+    if (running) lines.push({ text: '<span class="qa-muted">Please wait for the live logs and final results.</span>', muted: true, live: true });
     (data.jobs || []).forEach(job => {
       const icon = statusIcon(job.status, job.conclusion);
       lines.push({ text: `<span class="qa-prompt">${icon}</span> ${job.name}`, live: job.status === 'in_progress' });
       const activeStep = (job.steps || []).find(step => step.status === 'in_progress');
       if (activeStep) lines.push({ text: `<span class="qa-muted">↳ ${activeStep.name}</span>`, muted: true, live: true });
     });
-
-    if (!running && data.html_url) {
-      lines.push({ text: `<span class="qa-muted">↳ <a href="${data.html_url}" target="_blank" rel="noopener" style="color:var(--accent)">Open GitHub Actions run ↗</a></span>`, muted: true });
+    if (data.html_url) {
+      lines.push({ text: `<span class="qa-muted">↳ <a class="qa-live-run-link" href="${data.html_url}" target="_blank" rel="noopener">View the live GitHub Actions run</a></span>`, muted: true });
     }
     setConsole(lines);
   }
@@ -148,56 +156,45 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
     try {
       const data = await getStatus(runId);
       renderStatus(data);
-      if (data.status === 'completed') {
-        activeRunId = null;
-        return;
-      }
+      if (data.status === 'completed') return;
       pollTimer = window.setTimeout(() => poll(runId), 2500);
     } catch (error) {
       console.error('QA Lab status error:', error);
-      actionHint.textContent = 'Unable to read live status';
-      button.disabled = false;
+      actionHint.textContent = 'Unable to read the live status. Please check the GitHub Actions run.';
+      setButtonState(false);
       pollTimer = window.setTimeout(() => poll(runId), 5000);
     }
   }
 
-  button.disabled = false;
+  setButtonState(false);
   button.title = 'Run the real Playwright E2E suite';
-
   button.addEventListener('click', async () => {
     if (pollTimer) window.clearTimeout(pollTimer);
-    button.disabled = true;
-    actionHint.textContent = 'Queueing GitHub Actions…';
+    setButtonState(true);
+    actionHint.textContent = 'Starting the workflow. Please wait for the logs and final results.';
     consoleBrowser.textContent = 'Connecting…';
     setConsole([
-      { text: '<span class="qa-prompt">›</span> Requesting a real Playwright run…', live: true },
-      { text: '<span class="qa-muted">The suite will run on GitHub-hosted browsers.</span>', muted: true },
+      { text: '<span class="qa-prompt">›</span> Starting the real Playwright run…', live: true },
+      { text: '<span class="qa-muted">Please wait while GitHub Actions queues the workflow.</span>', muted: true, live: true },
+      { text: '<span class="qa-muted">You will be able to verify the live logs and final result.</span>', muted: true },
     ]);
-
     try {
-      const response = await fetch(`${API_BASE}/api/run-tests`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: '{}',
-      });
+      const response = await fetch(`${API_BASE}/api/run-tests`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || `Request failed (${response.status})`);
-
-      actionHint.textContent = 'Workflow queued — connecting to live status…';
+      actionHint.textContent = 'Workflow queued. Waiting for the live run and logs…';
       await sleep(2500);
       const latest = await getStatus();
-      activeRunId = latest.id;
       renderStatus(latest);
-      poll(activeRunId);
+      poll(latest.id);
     } catch (error) {
       console.error('QA Lab run error:', error);
-      button.disabled = false;
-      actionHint.textContent = 'Backend not connected yet';
+      setButtonState(false);
+      actionHint.textContent = 'Could not start the workflow. Please check the QA service configuration.';
       consoleBrowser.textContent = 'Offline';
       setConsole([
         { text: '<span class="qa-prompt">×</span> Could not start the QA workflow.', live: true },
         { text: `<span class="qa-muted">${error.message}</span>`, muted: true },
-        { text: '<span class="qa-muted">Deploy the QA API and configure GITHUB_ACTIONS_TOKEN to enable it.</span>', muted: true },
       ]);
     }
   });
