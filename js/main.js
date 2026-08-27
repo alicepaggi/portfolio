@@ -47,18 +47,47 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
 
 /* QA LAB — real Playwright workflow integration */
 (() => {
-  const TOTAL_TESTS = 52;
+  const GROUPS = [
+    { title: 'Homepage smoke tests', count: 6, step: 'Run Homepage smoke tests [6]' },
+    { title: 'Main navigation', count: 10, step: 'Run Main navigation [10]' },
+    { title: 'Case studies', count: 7, step: 'Run Case studies [7]' },
+    { title: 'External links', count: 6, step: 'Run External links [6]' },
+    { title: 'Interactive components', count: 6, step: 'Run Interactive components [6]' },
+    { title: 'Responsive layout', count: 8, step: 'Run Responsive layout [8]' },
+    { title: 'Current sections', count: 9, step: 'Run Current sections [9]' },
+  ];
+  const TOTAL_TESTS = GROUPS.reduce((total, group) => total + group.count, 0);
   const lab = document.querySelector('.qa-lab');
   const button = document.querySelector('.qa-run-button');
   const consoleScreen = document.querySelector('.qa-console-screen');
   const consoleBrowser = document.querySelector('.qa-console-browser');
   const actionHint = document.querySelector('.qa-lab-actions > span');
   const footerSummary = document.querySelector('.qa-lab-footer > span');
-  const rows = [...document.querySelectorAll('.qa-test-row')];
   const metrics = [...document.querySelectorAll('.qa-lab-metrics strong')];
   const testMetricLabel = metrics[0]?.parentElement?.querySelector('span');
-  if (!lab || !button || !consoleScreen) return;
+  const list = document.querySelector('.qa-test-list');
+  if (!lab || !button || !consoleScreen || !list) return;
 
+  function syncTestRows() {
+    const existing = [...list.querySelectorAll('.qa-test-row')];
+    GROUPS.forEach((group, index) => {
+      let row = existing[index];
+      if (!row) {
+        row = document.createElement('div');
+        row.className = 'qa-test-row is-passed';
+        row.innerHTML = '<span class="qa-status">✓</span><span></span><small></small>';
+        list.appendChild(row);
+      }
+      const spans = row.querySelectorAll('span');
+      if (spans[1]) spans[1].textContent = group.title;
+      const count = row.querySelector('small');
+      if (count) count.textContent = `${String(group.count).padStart(2, '0')} tests`;
+    });
+    existing.slice(GROUPS.length).forEach(row => row.remove());
+    return [...list.querySelectorAll('.qa-test-row')];
+  }
+
+  let rows = syncTestRows();
   const API_BASE = window.QA_LAB_API_BASE || 'https://portfolio-psi-one-uitl02qr3a.vercel.app';
   let pollTimer = null;
 
@@ -104,15 +133,13 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
   function setProgress(progress, state = 'ready') {
     const total = Number(progress?.total) || TOTAL_TESTS;
     const passed = Math.max(0, Math.min(Number(progress?.passed) || 0, total));
-    const failed = Math.max(0, Number(progress?.failed) || 0);
-
     if (!metrics[0]) return;
     if (state === 'ready') {
       metrics[0].textContent = String(total);
       if (testMetricLabel) testMetricLabel.textContent = 'TESTS';
     } else {
       metrics[0].textContent = `${passed}/${total}`;
-      if (testMetricLabel) testMetricLabel.textContent = failed ? 'TESTS PASSED' : 'TESTS PASSED';
+      if (testMetricLabel) testMetricLabel.textContent = 'TESTS PASSED';
     }
   }
 
@@ -123,19 +150,31 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
     return '–';
   }
 
+  function applyIconState(icon, status, conclusion) {
+    icon.textContent = statusIcon(status, conclusion);
+    icon.classList.remove('is-running', 'is-failed', 'is-passed');
+    icon.classList.toggle('is-running', status === 'in_progress' || status === 'queued');
+    icon.classList.toggle('is-failed', conclusion === 'failure' || conclusion === 'timed_out');
+    icon.classList.toggle('is-passed', conclusion === 'success');
+  }
+
   function updateRows(data) {
-    const jobs = data.jobs || [];
-    const chromium = jobs.find(job => job.name.toLowerCase().includes('chromium'));
-    const safari = jobs.find(job => job.name.toLowerCase().includes('mobile safari'));
+    const chromium = (data.jobs || []).find(job => job.name.toLowerCase().includes('chromium'));
+    const steps = chromium?.steps || [];
 
     rows.forEach((row, index) => {
-      const status = index === rows.length - 1 ? safari : chromium;
       const icon = row.querySelector('.qa-status');
-      if (!icon || !status) return;
-      icon.textContent = statusIcon(status.status, status.conclusion);
-      icon.classList.toggle('is-running', status.status === 'in_progress' || status.status === 'queued');
-      icon.classList.toggle('is-failed', status.conclusion === 'failure');
-      icon.classList.toggle('is-passed', status.conclusion === 'success');
+      const group = GROUPS[index];
+      if (!icon || !group) return;
+      const step = steps.find(item => item.name === group.step);
+
+      if (step) {
+        applyIconState(icon, step.status, step.conclusion);
+      } else if (chromium?.status === 'queued' || chromium?.status === 'in_progress') {
+        applyIconState(icon, 'queued', null);
+      } else {
+        applyIconState(icon, 'completed', null);
+      }
     });
   }
 
@@ -207,6 +246,7 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
     if (pollTimer) window.clearTimeout(pollTimer);
     setButtonState(true);
     setProgress({ passed: 0, failed: 0, total: TOTAL_TESTS }, 'running');
+    rows.forEach(row => applyIconState(row.querySelector('.qa-status'), 'queued', null));
     actionHint.textContent = `Starting the workflow: 0/${TOTAL_TESTS} tests passed.`;
     consoleBrowser.textContent = 'Connecting…';
     setConsole([
@@ -246,7 +286,8 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
     'Case studies': ['Each case study opens from the homepage and shows its key information.','The back link returns to Selected Work.','The case study content includes the expected project details and cards.'],
     'External links': ['Email, LinkedIn and GitHub links point to the correct destinations.','Project links open safely in a new tab.','Main external project links are checked for a successful response.'],
     'Interactive components': ['Carousel arrows and dots move between slides correctly.','Slider images have alternative text and load successfully.','The mobile menu opens and closes as expected.'],
-    'Responsive layout': ['Pages are checked for unwanted horizontal scrolling on smaller screens.','Navigation adapts to mobile layouts.','The homepage hero and main content stack correctly across viewports.']
+    'Responsive layout': ['Pages are checked for unwanted horizontal scrolling on smaller screens.','Navigation adapts to mobile layouts.','The homepage hero and main content stack correctly across viewports.'],
+    'Current sections': ['The QA Lab, ownership, experience, work, personal projects, education and QA approach sections are validated.','The QA Lab controls and accordions expose the expected content and accessible states.','Current portfolio content and destinations are checked for the expected structure.']
   };
 
   const style = document.createElement('style');
