@@ -199,3 +199,109 @@ document.querySelectorAll('[data-slider]').forEach(slider=>{
     }
   });
 })();
+
+/* QA LAB — accessible test group accordions */
+(() => {
+  const list = document.querySelector('.qa-test-list');
+  if (!list) return;
+
+  const summaries = {
+    'Homepage smoke tests': [
+      'The homepage loads with the correct title and key content.',
+      'The hero and profile image are visible and the image loads correctly.',
+      'Core sections, experience information and the footer are present.'
+    ],
+    'Main navigation': [
+      'Each menu link takes you to the correct section.',
+      'The brand link returns to the top of the page.',
+      'The CV and LinkedIn links use the expected destinations and settings.'
+    ],
+    'Case studies': [
+      'Each case study opens from the homepage and shows its key information.',
+      'The back link returns you to Selected Work.',
+      'The case study content includes the expected project details and cards.'
+    ],
+    'External links': [
+      'Email, LinkedIn and GitHub links point to the correct destinations.',
+      'Project links open safely in a new tab.',
+      'Main external project links are checked for a successful response.'
+    ],
+    'Interactive components': [
+      'Carousel arrows and dots move between slides correctly.',
+      'Slider images have alternative text and load successfully.',
+      'The mobile menu opens and closes as expected.'
+    ],
+    'Responsive layout': [
+      'Pages are checked for unwanted horizontal scrolling on smaller screens.',
+      'Navigation adapts to mobile layouts.',
+      'The homepage hero and main content stack correctly across viewports.'
+    ]
+  };
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .qa-test-row{padding:0!important;display:block!important;overflow:hidden}
+    .qa-test-summary{list-style:none;display:grid;grid-template-columns:28px 1fr auto 18px;align-items:center;gap:10px;padding:16px 12px;cursor:pointer;transition:background .2s ease}
+    .qa-test-summary::-webkit-details-marker{display:none}
+    .qa-test-summary:hover{background:rgba(66,199,206,.07)}
+    .qa-test-summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+    .qa-test-summary .qa-title{color:var(--text);font-weight:600}
+    .qa-test-summary .qa-count{color:var(--muted);font-size:.72rem;white-space:nowrap}
+    .qa-test-chevron{color:var(--accent-dark);font-size:1rem;transition:transform .2s ease}
+    .qa-test-row[open] .qa-test-chevron{transform:rotate(180deg)}
+    .qa-test-details{padding:0 24px 18px 50px;color:var(--muted);font-size:.82rem;line-height:1.55}
+    .qa-test-details ul{margin:0;padding-left:18px}
+    .qa-test-details li{margin:7px 0}
+    @media (max-width:620px){
+      .qa-test-summary{grid-template-columns:28px 1fr 18px;gap:8px}
+      .qa-test-summary .qa-count{grid-column:2;grid-row:2}
+      .qa-test-details{padding:0 18px 16px 48px;font-size:.78rem}
+    }
+  `;
+  document.head.appendChild(style);
+
+  [...list.querySelectorAll('.qa-test-row')].forEach(row => {
+    const spans = row.querySelectorAll('span');
+    const title = spans[1]?.textContent.trim();
+    const status = row.querySelector('.qa-status');
+    const count = row.querySelector('small')?.textContent.trim();
+    const items = summaries[title];
+    if (!title || !status || !count || !items) return;
+
+    const details = document.createElement('details');
+    details.className = row.className;
+    details.setAttribute('data-test-group', title);
+
+    const summary = document.createElement('summary');
+    summary.className = 'qa-test-summary';
+    summary.append(status);
+
+    const titleEl = document.createElement('span');
+    titleEl.className = 'qa-title';
+    titleEl.textContent = title;
+
+    const countEl = document.createElement('small');
+    countEl.className = 'qa-count';
+    countEl.textContent = count;
+
+    const chevron = document.createElement('span');
+    chevron.className = 'qa-test-chevron';
+    chevron.setAttribute('aria-hidden', 'true');
+    chevron.textContent = '⌄';
+
+    summary.append(titleEl, countEl, chevron);
+
+    const detailPanel = document.createElement('div');
+    detailPanel.className = 'qa-test-details';
+    const detailList = document.createElement('ul');
+    items.forEach(item => {
+      const entry = document.createElement('li');
+      entry.textContent = item;
+      detailList.appendChild(entry);
+    });
+    detailPanel.appendChild(detailList);
+
+    details.append(summary, detailPanel);
+    row.replaceWith(details);
+  });
+})();
