@@ -1,0 +1,29 @@
+name: Temporary favicon fix
+on:
+  push:
+    paths:
+      - '.github/workflows/favicon-fix.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add favicon link and remove temporary workflow
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          link = '  <link rel="icon" href="assets/ap-mark.svg" type="image/svg+xml">\n'
+          if link not in s:
+              s = s.replace('  <title>Alice Paggi | QA Specialist · Test Engineer</title>\n', '  <title>Alice Paggi | QA Specialist · Test Engineer</title>\n' + link, 1)
+          p.write_text(s)
+          PY
+          rm .github/workflows/favicon-fix.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html .github/workflows/favicon-fix.yml
+          git commit -m 'Add AP logo favicon link'
+          git push
