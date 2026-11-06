@@ -356,3 +356,48 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
     row.append(toggle, panel);
   });
 })();
+
+/* Public contact form — submit through the Vercel API without exposing the recipient address */
+(() => {
+  const form = document.querySelector('.contact-form');
+  const status = document.querySelector('.contact-form-status');
+  const submit = form?.querySelector('button[type="submit"]');
+  const startedAt = form?.querySelector('[name="formStartedAt"]');
+  if (!form || !status || !submit || !startedAt) return;
+
+  startedAt.value = String(Date.now());
+  const defaultLabel = 'Send message ↗';
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (submit.disabled) return;
+
+    submit.disabled = true;
+    submit.setAttribute('aria-busy', 'true');
+    submit.textContent = 'Sending…';
+    status.textContent = '';
+
+    try {
+      const payload = Object.fromEntries(new FormData(form).entries());
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Please try again later.');
+
+      form.reset();
+      startedAt.value = String(Date.now());
+      status.textContent = 'Thanks — your message has been sent.';
+      status.dataset.state = 'success';
+    } catch (error) {
+      status.textContent = error.message || 'We could not send your message. Please try again later.';
+      status.dataset.state = 'error';
+    } finally {
+      submit.disabled = false;
+      submit.removeAttribute('aria-busy');
+      submit.textContent = defaultLabel;
+    }
+  });
+})();
