@@ -41,11 +41,11 @@ export default async function handler(req, res) {
   const name = typeof body.name === 'string' ? body.name.trim() : '';
   const email = typeof body.email === 'string' ? body.email.trim() : '';
   const message = typeof body.message === 'string' ? body.message.trim() : '';
-  const company = typeof body.company === 'string' ? body.company.trim() : '';
+  const contactTrap = typeof body.contactTrap_b7f2 === 'string' ? body.contactTrap_b7f2.trim() : '';
   const formStartedAt = Number(body.formStartedAt);
 
   // Silently accept the request if the hidden honeypot is filled.
-  if (company) return sendJson(res, 202, { ok: true });
+  if (contactTrap) return sendJson(res, 202, { ok: true });
 
   if (!Number.isFinite(formStartedAt) || Date.now() - formStartedAt < 2000) {
     return sendJson(res, 422, { error: 'Please wait a moment before sending the form.' });
