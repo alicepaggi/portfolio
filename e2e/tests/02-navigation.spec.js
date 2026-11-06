@@ -31,7 +31,7 @@ test.describe('Main navigation', () => {
 
   test('the "Download CV" link has the correct attributes', async ({ page }) => {
     const cvLink = page.locator('.nav-cv');
-    await expect(cvLink).toHaveAttribute('href', /Alice_Paggi_CV_2026\.pdf/);
+    await expect(cvLink).toHaveAttribute('href', /CV%20Alice%20Paggi\.pdf/);
     await expect(cvLink).toHaveAttribute('target', '_blank');
     await expect(cvLink).toHaveAttribute('rel', /noopener/);
   });
