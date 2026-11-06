@@ -5,9 +5,10 @@ test.describe('Contact links (homepage)', () => {
     await page.goto('/#contact');
   });
 
-  test('email link is correct', async ({ page }) => {
-    const email = page.locator('.contact-links a[href^="mailto:"]');
-    await expect(email).toHaveAttribute('href', 'mailto:paggi.alice96@gmail.com');
+  test('personal email is not published and LinkedIn link is correct', async ({ page }) => {
+    await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
+    const linkedin = page.locator('.contact-links a[href*="linkedin.com"]');
+    await expect(linkedin).toHaveAttribute('href', 'https://www.linkedin.com/in/alicepaggi/');
   });
 
   test('LinkedIn link is correct and opens in a new tab', async ({ page }) => {
