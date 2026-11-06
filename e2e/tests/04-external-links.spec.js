@@ -28,10 +28,14 @@ test.describe('Contact links (homepage)', () => {
     await expect(linkedin).toHaveAttribute('rel', /noopener/);
   });
 
-  test('GitHub link is correct and opens in a new tab', async ({ page }) => {
-    const github = page.locator('.contact-links a[href*="github.com"]');
-    await expect(github).toHaveAttribute('href', 'https://github.com/alicepaggi');
-    await expect(github).toHaveAttribute('target', '_blank');
+  test('LinkedIn is the only contact link and is clearly identifiable', async ({ page }) => {
+    const links = page.locator('.contact-links a');
+    await expect(links).toHaveCount(1);
+    const linkedin = links.first();
+    await expect(linkedin).toHaveAttribute('href', 'https://www.linkedin.com/in/alicepaggi/');
+    await expect(linkedin).toHaveAttribute('target', '_blank');
+    await expect(linkedin).toHaveAttribute('aria-label', 'Connect with Alice Paggi on LinkedIn');
+    await expect(linkedin.locator('.contact-linkedin-icon')).toBeVisible();
   });
 });
 
