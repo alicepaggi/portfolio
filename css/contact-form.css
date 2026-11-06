@@ -24,3 +24,10 @@
 
 /* Remove legacy mail CTA from the LinkedIn action row */
 .contact-links a[href^="mailto:"]{display:none!important}
+
+/* Ensure the LinkedIn CTA cannot display a stale Email label */
+.contact-links>:not(.contact-linkedin){display:none!important}
+.contact-links .contact-linkedin{font-size:0!important}
+.contact-links .contact-linkedin>span:first-child:not(.contact-linkedin-arrow){display:none!important}
+.contact-links .contact-linkedin>span:not(.contact-linkedin-arrow){font-size:1rem!important}
+.contact-links .contact-linkedin>.contact-linkedin-arrow{font-size:1.05rem!important}
