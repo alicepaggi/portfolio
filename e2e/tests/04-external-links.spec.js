@@ -14,7 +14,7 @@ test.describe('Contact links (homepage)', () => {
   test('contact form is available without exposing a personal email address', async ({ page }) => {
     const form = page.locator('.contact-form');
     await expect(form).toHaveAttribute('method', 'POST');
-    await expect(form).toHaveAttribute('action', 'https://portfolio-psi-one-uitl02qr3a.vercel.app/api/contact');
+    await expect(form).toHaveAttribute('action', 'https://portfolio-contact-liart.vercel.app/api/contact');
     await expect(form.locator('input[name="name"]')).toBeVisible();
     await expect(form.locator('input[name="email"]')).toBeVisible();
     await expect(form.locator('textarea[name="message"]')).toBeVisible();
