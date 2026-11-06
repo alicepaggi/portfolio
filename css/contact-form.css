@@ -11,8 +11,8 @@
 .contact-field input::placeholder,.contact-field textarea::placeholder{color:#697373;opacity:1}
 .contact-field input:focus,.contact-field textarea:focus{outline:3px solid #42c7ce;outline-offset:3px;border-color:#42c7ce}
 .contact-form-note,.contact-form-status{color:#d8e0df}
-.contact-form-status[data-state="success"]{color:#42c7ce}
-.contact-form-status[data-state="error"]{color:#ffaaa6}
+.contact-section .contact-form-status[data-state="success"]{color:#42c7ce}
+.contact-section .contact-form-status[data-state="error"]{color:#ffaaa6}
 .contact-links{display:flex;justify-content:center;margin-top:30px}
 .contact-links .contact-linkedin{min-height:54px;display:inline-flex;align-items:center;gap:12px;padding:13px 22px;border:2px solid #fff;border-radius:999px;background:#fff;color:#172121;text-decoration:none;font:700 1rem "Space Grotesk",sans-serif;transition:background .2s ease,transform .2s ease,border-color .2s ease}
 .contact-linkedin-icon{width:23px;height:23px;flex:none;fill:#0a66c2}
