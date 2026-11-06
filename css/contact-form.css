@@ -21,3 +21,6 @@
 .contact-links .contact-linkedin:hover .contact-linkedin-icon{fill:#172121}
 .contact-links .contact-linkedin:focus-visible{outline:3px solid #42c7ce;outline-offset:4px}
 @media(max-width:620px){.contact-form{padding:20px}.contact-form-footer{align-items:flex-start;flex-direction:column;gap:12px}.contact-submit{min-height:46px}.contact-links .contact-linkedin{min-height:52px;width:min(100%,320px);justify-content:center}}
+
+/* Remove legacy mail CTA from the LinkedIn action row */
+.contact-links a[href^="mailto:"]{display:none!important}
